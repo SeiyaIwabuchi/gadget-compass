@@ -993,11 +993,12 @@
 
         /* Mobile Profile Widget */
         .mobile-profile-widget {
-            background: var(--gradient);
-            color: white;
+            background: var(--bg-white);
+            color: var(--text-primary);
             text-align: center;
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
         .mobile-profile-header {
@@ -1013,6 +1014,14 @@
 
         .mobile-profile-content {
             padding: 1.5rem;
+        }
+
+        .mobile-profile-info {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
         }
 
         .mobile-profile-avatar {
@@ -1037,19 +1046,76 @@
         .mobile-profile-title {
             font-size: 0.75rem;
             opacity: 0.9;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-bio {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .mobile-profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-profile-stat {
+            text-align: center;
+        }
+
+        .mobile-profile-stat-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
         }
 
         .mobile-profile-links {
             display: flex;
             gap: 0.5rem;
             justify-content: center;
+            margin-bottom: 1rem;
         }
 
         .mobile-profile-links .profile-link {
             width: 35px;
             height: 35px;
             font-size: 0.875rem;
+        }
+
+        .mobile-profile-specialties {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .mobile-profile-specialty-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .mobile-profile-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
         }
 
         /* Sidebar Widgets */
@@ -1603,6 +1669,11 @@
                 animation: slideInRight 0.3s ease;
             }
 
+            .mobile-menu.closing {
+                display: block;
+                animation: slideOutRight 0.3s ease;
+            }
+
             .mobile-menu .search-input {
                 width: 100%;
             }
@@ -1698,6 +1769,15 @@
                 }
                 to {
                     transform: translateX(0);
+                }
+            }
+
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(100%);
                 }
             }
 
@@ -1852,14 +1932,44 @@
             <div class="mobile-widget mobile-profile-widget">
                 <h3 class="mobile-profile-header">👤 プロフィール</h3>
                 <div class="mobile-profile-content">
-                    <div class="mobile-profile-avatar">🧭</div>
-                    <div class="mobile-profile-name">テックナビゲーター</div>
-                    <div class="mobile-profile-title">ガジェット・テクノロジー専門ライター</div>
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-avatar">🧭</div>
+                        <div class="mobile-profile-name">テックナビゲーター</div>
+                        <div class="mobile-profile-title">ガジェット・テクノロジー専門ライター</div>
+                        <div class="mobile-profile-bio">最新ガジェットから技術解説まで、わかりやすく深掘りしてお届けします。</div>
+                    </div>
+                    
+                    <div class="mobile-profile-stats">
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">156</div>
+                            <div class="mobile-profile-stat-label">記事</div>
+                        </div>
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">2.4K</div>
+                            <div class="mobile-profile-stat-label">フォロワー</div>
+                        </div>
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">89</div>
+                            <div class="mobile-profile-stat-label">レビュー</div>
+                        </div>
+                    </div>
+                    
                     <div class="mobile-profile-links">
                         <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
                         <a href="#" class="profile-link github" title="GitHub">⚡</a>
                         <a href="#" class="profile-link youtube" title="YouTube">📺</a>
                         <a href="#" class="profile-link email" title="Email">📧</a>
+                    </div>
+                    
+                    <div class="mobile-profile-specialties">
+                        <div class="mobile-profile-specialty-title">専門分野</div>
+                        <div class="mobile-profile-tags">
+                            <span class="mobile-profile-tag">スマートフォン</span>
+                            <span class="mobile-profile-tag">PC・ガジェット</span>
+                            <span class="mobile-profile-tag">オーディオ</span>
+                            <span class="mobile-profile-tag">カメラ</span>
+                            <span class="mobile-profile-tag">AI・IoT</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2658,7 +2768,22 @@
 
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('active');
+            
+            if (mobileMenu.classList.contains('active')) {
+                // Start closing animation
+                mobileMenu.classList.remove('active');
+                mobileMenu.classList.add('closing');
+                
+                // Hide menu after animation completes
+                setTimeout(() => {
+                    mobileMenu.classList.remove('closing');
+                    mobileMenu.style.display = 'none';
+                }, 300); // Match animation duration
+            } else {
+                // Show and start opening animation
+                mobileMenu.style.display = 'block';
+                mobileMenu.classList.add('active');
+            }
         }
 
         // Close mobile menu when clicking outside
@@ -2666,8 +2791,15 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const hamburger = document.querySelector('.hamburger');
             
-            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target)) {
+            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target) && mobileMenu.classList.contains('active')) {
+                // Use the same animated closing logic
                 mobileMenu.classList.remove('active');
+                mobileMenu.classList.add('closing');
+                
+                setTimeout(() => {
+                    mobileMenu.classList.remove('closing');
+                    mobileMenu.style.display = 'none';
+                }, 300);
             }
         });
 
