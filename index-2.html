@@ -1,0 +1,779 @@
+<!-- genspark -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ガジェットコンパス🧭 - ガジェット探求の旅に終わりはない</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --primary-light: #4d94ff;
+            --primary-dark: #004c99;
+            --accent: #00b3e6;
+            --light-bg: #f8f9fa;
+            --dark-text: #333;
+            --medium-text: #555;
+            --light-text: #777;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Noto Sans JP', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tag {
+            background-color: rgba(0, 102, 204, 0.1);
+            color: var(--primary);
+            transition: background-color 0.2s ease;
+        }
+        
+        .tag:hover {
+            background-color: rgba(0, 102, 204, 0.2);
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: background-color 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Better code display for technical articles */
+        .code-block {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+            padding: 16px;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid var(--primary);
+        }
+        
+        /* Table styling for technical articles */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .tech-table th {
+            background-color: #e0e7ff;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .tech-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        /* Chart container */
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+        }
+        
+        /* Better reading experience */
+        .article-content {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #1f2937;
+        }
+        
+        .article-content h2 {
+            font-size: 1.875rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .article-content h3 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content ul, 
+        .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* For technical specifications */
+        .spec-item {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;
+        }
+        
+        .spec-label {
+            width: 140px;
+            font-weight: 500;
+            color: var(--medium-text);
+            flex-shrink: 0;
+        }
+        
+        .spec-value {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <div class="text-3xl font-bold text-gray-800 flex items-center">
+                        <span class="text-blue-600">ガジェットコンパス</span>
+                        <span class="text-3xl ml-1">🧭</span>
+                    </div>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600">ホーム</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600">ガジェットレビュー</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600">テック考察</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600">プログラミング</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600">サーバー/インフラ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">ガジェット探求の旅に終わりはない</h1>
+                <p class="text-xl max-w-2xl mb-8">最新テクノロジーから実用的なデジタルツールまで、あなたのIT生活をより豊かにする情報をお届けします</p>
+                <div class="relative w-full max-w-xl">
+                    <input type="text" placeholder="キーワードで記事を検索..." class="search-box w-full px-6 py-4 rounded-full focus:outline-none text-gray-800">
+                    <button class="absolute right-2 top-2 bg-blue-600 text-white p-2 rounded-full">
+                        <i class="fas fa-search p-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Posts -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 text-center">注目の記事</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Featured Post 1 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="tag text-xs px-3 py-1 rounded-full">スマートフォン</span>
+                            <span class="tag text-xs px-3 py-1 rounded-full">レビュー</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">最新フラッグシップスマホの実力を徹底比較！</h3>
+                        <p class="text-gray-600 mb-4">2023年の最新モデルを手に入れる前に確認すべき性能とコスパの関係性を解説</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年6月10日</span>
+                            <a href="#" class="text-blue-600 hover:underline">続きを読む</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Post 2 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <i class="fas fa-code text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="tag text-xs px-3 py-1 rounded-full">プログラミング</span>
+                            <span class="tag text-xs px-3 py-1 rounded-full">入門</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">今から始めるPython入門 - データ分析の基礎知識</h3>
+                        <p class="text-gray-600 mb-4">IT業界で人気のプログラミング言語Pythonを使ったデータ分析の基本を解説</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年6月5日</span>
+                            <a href="#" class="text-blue-600 hover:underline">続きを読む</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Post 3 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+                    <div class="bg-gray-200 h-48 flex items-center justify-center">
+                        <i class="fas fa-server text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="tag text-xs px-3 py-1 rounded-full">サーバー</span>
+                            <span class="tag text-xs px-3 py-1 rounded-full">クラウド</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">自宅サーバー構築のすすめ - NASの選び方と活用法</h3>
+                        <p class="text-gray-600 mb-4">コスパ良好な自宅サーバー環境の構築方法とデータバックアップの重要性について</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">2023年5月28日</span>
+                            <a href="#" class="text-blue-600 hover:underline">続きを読む</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Reviews -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 text-center">最新ガジェットレビュー</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Review 1 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+                    <div class="bg-gray-200 md:w-1/3 h-48 md:h-auto flex items-center justify-center">
+                        <i class="fas fa-headphones text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <div class="flex gap-2 mb-2">
+                            <span class="tag text-xs px-2 py-1 rounded-full">オーディオ</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">没入感が違う！最新ノイズキャンセリングイヤホン比較</h3>
+                        <div class="flex mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">4.5/5.0</span>
+                        </div>
+                        <p class="text-gray-600 mb-3 text-sm">長時間使用での快適さと音質の両立を果たした最新モデルを徹底比較</p>
+                        <a href="#" class="text-blue-600 hover:underline text-sm">レビューを読む</a>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+                    <div class="bg-gray-200 md:w-1/3 h-48 md:h-auto flex items-center justify-center">
+                        <i class="fas fa-laptop text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <div class="flex gap-2 mb-2">
+                            <span class="tag text-xs px-2 py-1 rounded-full">PC</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">クリエイター向け最新ノートPC - 処理能力と携帯性の融合</h3>
+                        <div class="flex mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">4.0/5.0</span>
+                        </div>
+                        <p class="text-gray-600 mb-3 text-sm">動画編集や3DCG制作にも耐えうる実力派モバイルマシンの実力検証</p>
+                        <a href="#" class="text-blue-600 hover:underline text-sm">レビューを読む</a>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+                    <div class="bg-gray-200 md:w-1/3 h-48 md:h-auto flex items-center justify-center">
+                        <i class="fas fa-camera text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <div class="flex gap-2 mb-2">
+                            <span class="tag text-xs px-2 py-1 rounded-full">カメラ</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">ミラーレス一眼の新星 - 小型ボディに詰め込まれた高性能</h3>
+                        <div class="flex mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">5.0/5.0</span>
+                        </div>
+                        <p class="text-gray-600 mb-3 text-sm">プロ仕様の機能を手の届く価格帯で実現した注目のエントリーモデル</p>
+                        <a href="#" class="text-blue-600 hover:underline text-sm">レビューを読む</a>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="card bg-white rounded-lg overflow-hidden shadow-md flex flex-col md:flex-row">
+                    <div class="bg-gray-200 md:w-1/3 h-48 md:h-auto flex items-center justify-center">
+                        <i class="fas fa-tablet-alt text-5xl text-gray-400"></i>
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <div class="flex gap-2 mb-2">
+                            <span class="tag text-xs px-2 py-1 rounded-full">タブレット</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">描く喜びを再発見！イラスト制作に特化したタブレット</h3>
+                        <div class="flex mb-3">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-sm text-gray-500 ml-2">4.5/5.0</span>
+                        </div>
+                        <p class="text-gray-600 mb-3 text-sm">筆圧感知と遅延のない描き心地で初心者からプロまで満足できる一台</p>
+                        <a href="#" class="text-blue-600 hover:underline text-sm">レビューを読む</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Article -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-8">
+                    <div class="flex gap-2 mb-3">
+                        <span class="tag text-xs px-3 py-1 rounded-full">ガジェット考察</span>
+                        <span class="tag text-xs px-3 py-1 rounded-full">スマートホーム</span>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">スマートホームの未来 - IoT機器が変える私たちの生活</h2>
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        <span>2023年6月15日</span>
+                        <span class="mx-2">|</span>
+                        <i class="far fa-clock mr-2"></i>
+                        <span>読了時間: 約10分</span>
+                    </div>
+                </div>
+                
+                <div class="article-content">
+                    <p class="lead text-lg text-gray-700 mb-6">
+                        スマートホームテクノロジーの進化は、私たちの日常生活を根本から変えつつあります。家電の遠隔操作から始まり、今では家全体がインテリジェントになった「スマートホーム」へと進化しています。本記事では、最新のIoTデバイスがどのように私たちの生活を変えているのか、そしてその未来について考察します。
+                    </p>
+
+                    <h3 class="font-bold text-2xl mt-8 mb-4">1. スマートホームの現在地</h3>
+                    
+                    <p>
+                        現在のスマートホーム市場は、大きく分けて以下のカテゴリに分類できます。
+                    </p>
+                    
+                    <ul class="list-disc pl-6 my-4">
+                        <li><strong>照明システム</strong> - 調光、色調整、スケジュール管理が可能</li>
+                        <li><strong>セキュリティ</strong> - スマートロック、カメラ、センサー類</li>
+                        <li><strong>温度調節</strong> - スマートサーモスタット、エアコン制御</li>
+                        <li><strong>エンターテイメント</strong> - 音声アシスタント連携スピーカー、テレビ</li>
+                        <li><strong>キッチン家電</strong> - スマート冷蔵庫、オーブン、コーヒーメーカーなど</li>
+                    </ul>
+                    
+                    <p>
+                        これらのデバイスは単体でも便利ですが、相互に連携することでさらにその価値を発揮します。例えば、「おやすみモード」という一つのコマンドで、照明を消し、ドアの鍵を確認し、サーモスタットを調整するといった複合的な操作が可能になります。
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+                        <h4 class="font-bold text-lg mb-2">注目ポイント</h4>
+                        <p>スマートホームデバイスの普及率は2023年時点で日本の都市部世帯の約35%に達しており、年々増加傾向にあります。特に20-30代の若い世代での採用率が高く、将来的な市場拡大が予測されています。</p>
+                    </div>
+
+                    <h3 class="font-bold text-2xl mt-8 mb-4">2. 技術的な課題と解決策</h3>
+
+                    <p>
+                        スマートホームの普及にあたっては、いくつかの技術的課題が存在します。
+                    </p>
+
+                    <div class="code-block">
+<pre>// スマートホームデバイスの一般的な接続フロー
+const connectDevice = async (deviceId) => {
+  try {
+    // デバイスの検出
+    const device = await discoverDevice(deviceId);
+    
+    // ネットワーク接続
+    const connectionStatus = await device.connect();
+    
+    if (connectionStatus.success) {
+      // デバイス設定
+      await device.configure({
+        name: "リビング照明",
+        group: "照明",
+        automationEnabled: true
+      });
+      
+      console.log("デバイス接続完了");
+      return true;
+    }
+  } catch (error) {
+    console.error("接続エラー:", error.message);
+    return false;
+  }
+};</pre>
+                    </div>
+
+                    <p>
+                        また、異なるメーカー間の互換性の問題も依然として課題です。Matter規格のような新しい統一規格の登場により、これらの問題は徐々に解決されつつあります。
+                    </p>
+
+                    <h4 class="font-bold text-xl mt-6 mb-3">主要規格の比較</h4>
+
+                    <div class="overflow-x-auto">
+                        <table class="tech-table">
+                            <thead>
+                                <tr>
+                                    <th>規格名</th>
+                                    <th>特徴</th>
+                                    <th>対応デバイス</th>
+                                    <th>将来性</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Matter</td>
+                                    <td>オープン規格、複数プラットフォーム対応</td>
+                                    <td>照明、サーモスタット、ロック等</td>
+                                    <td>◎</td>
+                                </tr>
+                                <tr>
+                                    <td>Zigbee</td>
+                                    <td>低消費電力、メッシュネットワーク</td>
+                                    <td>センサー、スイッチ等</td>
+                                    <td>○</td>
+                                </tr>
+                                <tr>
+                                    <td>Z-Wave</td>
+                                    <td>干渉に強い、安定性高</td>
+                                    <td>セキュリティ機器、照明制御等</td>
+                                    <td>○</td>
+                                </tr>
+                                <tr>
+                                    <td>Wi-Fi</td>
+                                    <td>高速通信、広く普及</td>
+                                    <td>カメラ、大型家電等</td>
+                                    <td>○</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="font-bold text-2xl mt-8 mb-4">3. 実用的なスマートホーム構築のすすめ</h3>
+
+                    <p>
+                        初めてスマートホームを構築する場合、どこから始めるべきでしょうか？ 以下に段階的なアプローチを提案します。
+                    </p>
+
+                    <ol class="list-decimal pl-6 my-4">
+                        <li>
+                            <strong>スマートスピーカー/ディスプレイの導入</strong>
+                            <p class="ml-2">Amazon Echo、Google Nest、Apple HomePodなどから選択。これが中心的なコントロールハブとなります。</p>
+                        </li>
+                        <li>
+                            <strong>スマート照明の設置</strong>
+                            <p class="ml-2">Philips Hue、LIFX、tp-linkなどのスマート電球やスイッチは比較的安価で導入しやすい。</p>
+                        </li>
+                        <li>
+                            <strong>セキュリティ機器の追加</strong>
+                            <p class="ml-2">スマートロックやカメラなど、安全性と利便性を高める機器を導入。</p>
+                        </li>
+                        <li>
+                            <strong>センサー類の展開</strong>
+                            <p class="ml-2">動き、温度、湿度、空気質などのセンサーで環境モニタリング。</p>
+                        </li>
+                        <li>
+                            <strong>オートメーション設定</strong>
+                            <p class="ml-2">デバイス間の連携設定で、真のスマートホーム体験を実現。</p>
+                        </li>
+                    </ol>
+
+                    <div class="bg-gray-50 p-6 rounded-lg my-8">
+                        <h4 class="font-bold text-lg mb-3">推奨スマートホームスターターセット</h4>
+                        <div class="space-y-3">
+                            <div class="spec-item">
+                                <div class="spec-label">スマートスピーカー</div>
+                                <div class="spec-value">Google Nest Hub (2nd Gen) または Amazon Echo Show 8</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">照明</div>
+                                <div class="spec-value">Philips Hue スターターキット（ブリッジ + LED電球3個）</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">スマートプラグ</div>
+                                <div class="spec-value">TP-Link Kasa または SwitchBot スマートプラグ 2個</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">セキュリティ</div>
+                                <div class="spec-value">Arlo Essential または Eufy セキュリティカメラ</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">予算目安</div>
+                                <div class="spec-value">30,000円〜50,000円</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-2xl mt-8 mb-4">4. スマートホームの未来展望</h3>
+
+                    <p>
+                        スマートホームテクノロジーは今後どのように進化していくのでしょうか？いくつかの注目すべき将来動向を考察します。
+                    </p>
+
+                    <ul class="list-disc pl-6 my-4">
+                        <li>
+                            <strong>AIの進化</strong>
+                            <p class="ml-2">単なる音声コマンド実行から、行動パターン学習と予測による先回りした提案や操作が可能に。</p>
+                        </li>
+                        <li>
+                            <strong>健康モニタリングの統合</strong>
+                            <p class="ml-2">睡眠質、活動量、バイタルサインなどの継続的モニタリングと健康管理の一体化。</p>
+                        </li>
+                        <li>
+                            <strong>エネルギー管理の最適化</strong>
+                            <p class="ml-2">太陽光発電やバッテリーストレージと連携した自律型エネルギー管理システム。</p>
+                        </li>
+                        <li>
+                            <strong>没入型体験</strong>
+                            <p class="ml-2">AR/VRとの統合による、空間全体を活用した新しいインターフェース体験。</p>
+                        </li>
+                    </ul>
+
+                    <p class="mt-6">
+                        これらの進化により、スマートホームはより直感的で、個々のユーザーに合わせてカスタマイズされ、環境にも優しいものになっていくでしょう。技術の発展とともに、私たちの住空間はただの「住む場所」から、私たちをサポートし、理解し、先回りして快適さを提供する「インテリジェントな生活パートナー」へと変わっていくのです。
+                    </p>
+
+                    <div class="flex items-center justify-center my-10">
+                        <i class="fas fa-home text-6xl text-blue-500 mr-4"></i>
+                        <i class="fas fa-plus text-2xl text-gray-400 mx-4"></i>
+                        <i class="fas fa-microchip text-6xl text-blue-500 ml-4"></i>
+                    </div>
+
+                    <p class="text-lg font-medium">
+                        スマートホームは単なるトレンドではなく、私たちの生活様式を根本から変える可能性を秘めた技術革新です。導入の敷居は年々下がっており、今こそ未来の住まい方を体験する絶好のタイミングかもしれません。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10 text-center">コンテンツカテゴリー</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-mobile-alt text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">スマートフォン</h3>
+                    <p class="text-sm text-gray-600">最新機種のレビューや比較、活用テクニック</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-laptop text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">パソコン・タブレット</h3>
+                    <p class="text-sm text-gray-600">性能検証やビジネス/クリエイティブ用途別おすすめ</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-code text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">プログラミング</h3>
+                    <p class="text-sm text-gray-600">言語別チュートリアルや実践的な開発テクニック</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-server text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">サーバー・インフラ</h3>
+                    <p class="text-sm text-gray-600">自宅サーバー構築からクラウドサービス活用まで</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-headphones text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">オーディオ</h3>
+                    <p class="text-sm text-gray-600">イヤホン・ヘッドホン・スピーカーなどの音響機器</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-camera text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">カメラ・映像</h3>
+                    <p class="text-sm text-gray-600">デジタルカメラや映像機器、撮影テクニック</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-gamepad text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">ゲーミングデバイス</h3>
+                    <p class="text-sm text-gray-600">ゲーム機や周辺機器、eスポーツ関連情報</p>
+                </a>
+                
+                <a href="#" class="bg-white rounded-lg p-6 text-center shadow-md hover:shadow-lg transition-shadow group">
+                    <div class="rounded-full bg-blue-50 w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-home text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">スマートホーム</h3>
+                    <p class="text-sm text-gray-600">IoTデバイスや家電、住環境の自動化技術</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">最新情報をお届け</h2>
+            <p class="max-w-xl mx-auto mb-8">新着記事やガジェット情報、限定コンテンツをいち早くお届けします。メールアドレスをご登録ください。</p>
+            <div class="max-w-md mx-auto flex flex-col md:flex-row gap-2">
+                <input type="email" placeholder="メールアドレスを入力" class="px-4 py-3 rounded-lg flex-grow focus:outline-none text-gray-800">
+                <button class="btn-primary px-6 py-3 rounded-lg font-medium bg-white text-blue-600 hover:bg-gray-100">登録する</button>
+            </div>
+            <p class="text-sm mt-4 text-blue-100">※ご登録いただいたメールアドレスは、本サービスのみに使用し、第三者に提供することはありません。</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">ガジェットコンパス🧭</h3>
+                    <p class="text-gray-300 mb-4">ガジェット探求の旅に終わりはない</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">コンテンツ</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">ガジェットレビュー</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">テック考察</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">プログラミング</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">サーバー/インフラ</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">チュートリアル</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">サイト情報</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">運営者情報</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">プライバシーポリシー</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">利用規約</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">お問い合わせ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">お問い合わせ</h4>
+                    <p class="text-gray-300 mb-4">ご質問、取材依頼、レビュー依頼などはこちらからお願いします。</p>
+                    <a href="#" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">お問い合わせフォーム</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2023 ガジェットコンパス🧭 All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // シンプルなスクロール処理
+        document.addEventListener('DOMContentLoaded', function() {
+            // ナビゲーションリンクのスムーススクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // スクロールでヘッダーの背景を変更
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-white', 'shadow-md');
+                    header.classList.remove('bg-transparent');
+                } else {
+                    header.classList.remove('shadow-md');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

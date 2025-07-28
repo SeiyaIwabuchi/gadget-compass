@@ -1,0 +1,1183 @@
+<!-- claude -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ガジェットコンパス🧭 | ガジェット探求の旅に終わりはない</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --accent-orange: #f97316;
+            --bg-white: #ffffff;
+            --bg-gray: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            background: var(--bg-gray);
+            font-size: 16px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .compass-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .compass-logo:hover {
+            transform: rotate(45deg);
+        }
+
+        .compass-logo::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: var(--accent-orange);
+            border-radius: 1px;
+            transform: translateY(-2px);
+        }
+
+        .site-info h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .site-tagline {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            background: var(--bg-gray);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .nav-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 1px;
+        }
+
+        .nav-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            border-bottom-color: var(--secondary-blue);
+        }
+
+        .nav-direction {
+            font-size: 0.625rem;
+            opacity: 0.7;
+            font-weight: 600;
+        }
+
+        /* Mobile hamburger menu */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-scroll-indicator {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(to left, var(--bg-white), transparent);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Mobile Navigation Grid */
+        .mobile-nav-grid {
+            display: none;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.25rem;
+            padding: 0.75rem;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 0.25rem;
+            background: var(--bg-gray);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            min-height: 60px;
+            justify-content: center;
+        }
+
+        .mobile-nav-item:hover,
+        .mobile-nav-item.active {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-color: var(--secondary-blue);
+        }
+
+        .mobile-nav-direction {
+            font-size: 0.625rem;
+            font-weight: 700;
+            margin-bottom: 0.125rem;
+            opacity: 0.8;
+        }
+
+        .mobile-nav-label {
+            font-size: 0.625rem;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--accent-orange);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 3rem;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Article Cards */
+        .articles-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-blue);
+        }
+
+        .featured-article {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 0;
+        }
+
+        .article-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--light-blue), var(--secondary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-article .article-image {
+            height: auto;
+            min-height: 200px;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-category {
+            background: var(--gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .article-date {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .difficulty-level {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: auto;
+        }
+
+        .difficulty-star {
+            color: var(--accent-orange);
+            font-size: 0.875rem;
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .article-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .article-title a:hover {
+            color: var(--secondary-blue);
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .article-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .article-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .read-more {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .read-more:hover {
+            color: var(--primary-blue);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .widget {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .widget-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-content {
+            padding: 1.5rem;
+        }
+
+        .compass-nav {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .compass-direction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .compass-direction:hover {
+            border-color: var(--secondary-blue);
+            background: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        .direction-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .direction-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .direction-category {
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .recent-posts {
+            list-style: none;
+        }
+
+        .recent-posts li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .recent-posts li:last-child {
+            border-bottom: none;
+        }
+
+        .recent-posts a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .recent-posts a:hover {
+            color: var(--secondary-blue);
+        }
+
+        .recent-post-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-input {
+                width: 250px;
+            }
+
+            /* Show mobile navigation grid */
+            .nav-list {
+                display: none;
+            }
+
+            .mobile-nav-grid {
+                display: grid;
+            }
+
+            .nav-scroll-indicator {
+                display: none !important;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+
+            .featured-article {
+                grid-template-columns: 1fr;
+            }
+
+            .compass-nav {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            /* Show scroll indicator on tablets */
+            .nav-scroll-indicator {
+                display: block;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary-blue);
+            animation: pulse 1.4s ease-in-out infinite both;
+        }
+
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.3;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="compass-logo">🧭</div>
+                    <div class="site-info">
+                        <h1>ガジェットコンパス</h1>
+                        <div class="site-tagline">ガジェット探求の旅に終わりはない</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="記事を検索...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="nav">
+            <div class="container">
+                <div class="nav-container">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <span class="nav-direction">N</span>
+                                ホーム
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">NE</span>
+                                レビュー
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">E</span>
+                                プログラミング
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">SE</span>
+                                サーバー
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">S</span>
+                                考察
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">SW</span>
+                                ツール
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">W</span>
+                                ニュース
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <span class="nav-direction">NW</span>
+                                About
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="nav-scroll-indicator"></div>
+                </div>
+                
+                <!-- Mobile Navigation Grid -->
+                <div class="mobile-nav-grid">
+                    <a href="#" class="mobile-nav-item active">
+                        <div class="mobile-nav-direction">N</div>
+                        <div class="mobile-nav-label">ホーム</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">NE</div>
+                        <div class="mobile-nav-label">レビュー</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">E</div>
+                        <div class="mobile-nav-label">プログラミング</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">SE</div>
+                        <div class="mobile-nav-label">サーバー</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">S</div>
+                        <div class="mobile-nav-label">考察</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">SW</div>
+                        <div class="mobile-nav-label">ツール</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">W</div>
+                        <div class="mobile-nav-label">ニュース</div>
+                    </a>
+                    <a href="#" class="mobile-nav-item">
+                        <div class="mobile-nav-direction">NW</div>
+                        <div class="mobile-nav-label">About</div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">探求の旅へようこそ</h1>
+                <p class="hero-subtitle">最新ガジェットから技術解説まで、ITの世界を深く掘り下げます</p>
+                <a href="#content" class="cta-button">
+                    探求を始める
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <main id="content" class="main-content">
+        <div class="container">
+            <div class="content-layout">
+                <div class="main-column">
+                    <section class="featured-section">
+                        <div class="section-header">
+                            <div class="section-icon">⭐</div>
+                            <h2 class="section-title">注目の記事</h2>
+                        </div>
+                        <div class="articles-grid">
+                            <article class="article-card featured-article">
+                                <div class="article-image">📱</div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span class="article-category">レビュー</span>
+                                        <span class="article-date">2025.07.28</span>
+                                        <div class="difficulty-level">
+                                            <span class="difficulty-star">★★☆☆☆</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="article-title">
+                                        <a href="#">iPhone 16 Pro Max 徹底レビュー：カメラ性能の進化を検証</a>
+                                    </h3>
+                                    <p class="article-excerpt">
+                                        最新のiPhone 16 Pro Maxを2週間使い込んでわかった、カメラ機能の実力とは？プロ仕様の撮影機能から日常使いまで、詳細にテストした結果をお届けします。
+                                    </p>
+                                    <div class="article-footer">
+                                        <div class="article-stats">
+                                            <span>👀 1,234 views</span>
+                                            <span>💬 15 comments</span>
+                                        </div>
+                                        <a href="#" class="read-more">続きを読む →</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="recent-section">
+                        <div class="section-header">
+                            <div class="section-icon">🔄</div>
+                            <h2 class="section-title">最新記事</h2>
+                        </div>
+                        <div class="articles-grid">
+                            <article class="article-card">
+                                <div class="article-image">💻</div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span class="article-category">プログラミング</span>
+                                        <span class="article-date">2025.07.27</span>
+                                        <div class="difficulty-level">
+                                            <span class="difficulty-star">★★★☆☆</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="article-title">
+                                        <a href="#">React 19の新機能を実際のプロジェクトで試してみた</a>
+                                    </h3>
+                                    <p class="article-excerpt">
+                                        React 19で追加された新機能を実際のプロジェクトに導入。Server Componentsやuseフックの使い勝手を詳しく解説します。
+                                    </p>
+                                    <div class="article-footer">
+                                        <div class="article-stats">
+                                            <span>👀 892 views</span>
+                                            <span>💬 8 comments</span>
+                                        </div>
+                                        <a href="#" class="read-more">続きを読む →</a>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="article-card">
+                                <div class="article-image">🖥️</div>
+                                <div class="article-content">
+                                    <div class="article-meta">
+                                        <span class="article-category">サーバー</span>
+                                        <span class="article-date">2025.07.26</span>
+                                        <div class="difficulty-level">
+                                            <span class="difficulty-star">★★★★☆</span>
+                                        </div>
+                                    </div>
+                                    <h3 class="article-title">
+                                        <a href="#">自宅ラボ構築ガイド：ProxmoxでVMクラスター環境を作る</a>
+                                    </h3>
+                                    <p class="article-excerpt">
+                                        自宅でエンタープライズレベルのサーバー環境を構築。Proxmoxを使った仮想化クラスターの設定から運用まで詳しく解説。
+                                    </p>
+                                    <div class="article-footer">
+                                        <div class="article-stats">
+                                            <span>👀 654 views</span>
+                                            <span>💬 12 comments</span>
+                                        </div>
+                                        <a href="#" class="read-more">続きを読む →</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="widget">
+                        <div class="widget-header">探求コンパス</div>
+                        <div class="widget-content">
+                            <div class="compass-nav">
+                                <a href="#" class="compass-direction">
+                                    <div class="direction-icon">📱</div>
+                                    <div class="direction-label">北</div>
+                                    <div class="direction-category">レビュー</div>
+                                </a>
+                                <a href="#" class="compass-direction">
+                                    <div class="direction-icon">💻</div>
+                                    <div class="direction-label">東</div>
+                                    <div class="direction-category">プログラミング</div>
+                                </a>
+                                <a href="#" class="compass-direction">
+                                    <div class="direction-icon">🖥️</div>
+                                    <div class="direction-label">南</div>
+                                    <div class="direction-category">サーバー</div>
+                                </a>
+                                <a href="#" class="compass-direction">
+                                    <div class="direction-icon">🤔</div>
+                                    <div class="direction-label">西</div>
+                                    <div class="direction-category">考察</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <div class="widget-header">最近の探求</div>
+                        <div class="widget-content">
+                            <ul class="recent-posts">
+                                <li>
+                                    <a href="#">M4 MacBook Proの発熱問題を解決する冷却パッド比較</a>
+                                    <div class="recent-post-date">2025.07.25</div>
+                                </li>
+                                <li>
+                                    <a href="#">TypeScript 5.3の新機能でコードをよりエレガントに</a>
+                                    <div class="recent-post-date">2025.07.24</div>
+                                </li>
+                                <li>
+                                    <a href="#">Docker Composeで開発環境を統一する方法</a>
+                                    <div class="recent-post-date">2025.07.23</div>
+                                </li>
+                                <li>
+                                    <a href="#">スマートウォッチ健康管理機能の精度を検証</a>
+                                    <div class="recent-post-date">2025.07.22</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <div class="widget-header">探求レベル</div>
+                        <div class="widget-content">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span>★☆☆☆☆</span>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">入門レベル</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span>★★☆☆☆</span>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">基礎レベル</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span>★★★☆☆</span>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">中級レベル</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <span>★★★★☆</span>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">上級レベル</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span>★★★★★</span>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">エキスパート</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Compass logo rotation on scroll
+        let lastScrollTop = 0;
+        const compass = document.querySelector('.compass-logo');
+        
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const rotation = scrollTop * 0.5;
+            compass.style.transform = `rotate(${rotation}deg)`;
+            lastScrollTop = scrollTop;
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchIcon = document.querySelector('.search-icon');
+
+        searchInput.addEventListener('focus', () => {
+            searchIcon.style.color = 'var(--secondary-blue)';
+        });
+
+        searchInput.addEventListener('blur', () => {
+            searchIcon.style.color = 'var(--text-light)';
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                // Mock search functionality
+                console.log(`Searching for: ${searchInput.value}`);
+                // Here you would implement actual search
+            }
+        });
+
+        // Smooth scrolling for CTA button
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('#content').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Article card hover effects
+        const articleCards = document.querySelectorAll('.article-card');
+        articleCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Navigation active state (both desktop and mobile)
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                mobileNavItems.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                link.classList.add('active');
+            });
+        });
+
+        mobileNavItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Remove active class from all items
+                navLinks.forEach(l => l.classList.remove('active'));
+                mobileNavItems.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked item
+                item.classList.add('active');
+            });
+        });
+
+        // Show scroll indicator for navigation on tablets
+        const navList = document.querySelector('.nav-list');
+        const scrollIndicator = document.querySelector('.nav-scroll-indicator');
+        
+        if (navList && scrollIndicator) {
+            function updateScrollIndicator() {
+                const isScrollable = navList.scrollWidth > navList.clientWidth;
+                const isAtEnd = navList.scrollLeft >= (navList.scrollWidth - navList.clientWidth - 10);
+                
+                if (isScrollable && !isAtEnd) {
+                    scrollIndicator.style.opacity = '1';
+                } else {
+                    scrollIndicator.style.opacity = '0';
+                }
+            }
+
+            navList.addEventListener('scroll', updateScrollIndicator);
+            window.addEventListener('resize', updateScrollIndicator);
+            updateScrollIndicator();
+        }
+
+        // Compass directions hover effect
+        const compassDirections = document.querySelectorAll('.compass-direction');
+        compassDirections.forEach(direction => {
+            direction.addEventListener('mouseenter', () => {
+                const icon = direction.querySelector('.direction-icon');
+                icon.style.transform = 'scale(1.2)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+            
+            direction.addEventListener('mouseleave', () => {
+                const icon = direction.querySelector('.direction-icon');
+                icon.style.transform = 'scale(1)';
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.article-card, .widget');
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(element);
+            });
+        });
+
+        // Loading animation for search
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            if (searchInput.value.length > 2) {
+                searchTimeout = setTimeout(() => {
+                    // Mock loading state
+                    console.log('Searching...', searchInput.value);
+                }, 500);
+            }
+        });
+
+        // Dark mode toggle preparation (for future enhancement)
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (systemPrefersDark) {
+            // Could implement dark mode here
+            console.log('System prefers dark mode');
+        }
+    </script>
+</body>
+</html>
