@@ -279,11 +279,11 @@
             font-weight: 500;
         }
 
-        /* Hero Section */
+        /* Hero Section - Compact */
         .hero {
             background: var(--gradient);
             color: white;
-            padding: 4rem 0;
+            padding: 2rem 0;
             position: relative;
             overflow: hidden;
         }
@@ -307,16 +307,16 @@
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.3s forwards;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             opacity: 0;
             animation: fadeInUp 1s ease 0.6s forwards;
         }
@@ -325,13 +325,13 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1.5rem;
             background: var(--accent-orange);
             color: white;
             text-decoration: none;
             border-radius: 25px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.875rem;
             transition: all 0.3s ease;
             opacity: 0;
             animation: fadeInUp 1s ease 0.9s forwards;
@@ -845,6 +845,213 @@
             background: #4267b2;
         }
 
+        /* Profile Widget */
+        .profile-widget {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .profile-content {
+            padding: 1.5rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-link:hover {
+            transform: translateY(-2px) scale(1.1);
+        }
+
+        .profile-link.twitter {
+            background: #1da1f2;
+        }
+
+        .profile-link.github {
+            background: #333;
+        }
+
+        .profile-link.youtube {
+            background: #ff0000;
+        }
+
+        .profile-link.email {
+            background: var(--accent-orange);
+        }
+
+        .profile-specialties {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .profile-specialty-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .profile-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Profile Widget */
+        .mobile-profile-widget {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .mobile-profile-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-profile-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .mobile-profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-title {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-profile-links {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .mobile-profile-links .profile-link {
+            width: 35px;
+            height: 35px;
+            font-size: 0.875rem;
+        }
+
         /* Sidebar Widgets */
         .sidebar-widget {
             background: var(--bg-white);
@@ -1260,12 +1467,12 @@
             background: #ea580c;
         }
 
-        /* Trending Section */
+        /* Trending Section - Compact */
         .trending-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 3rem 0;
-            margin: 3rem 0;
+            padding: 1.5rem 0;
+            margin: 1.5rem 0;
         }
 
         .trending-content {
@@ -1273,48 +1480,45 @@
         }
 
         .trending-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .trending-subtitle {
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             opacity: 0.9;
         }
 
         .trending-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 0;
         }
 
         .stat-item {
             background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
+            padding: 1rem;
+            border-radius: 8px;
             backdrop-filter: blur(10px);
         }
 
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             color: var(--accent-orange);
         }
 
         .stat-label {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             opacity: 0.9;
         }
 
         .trending-keywords {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: none;
         }
 
         .trending-tag {
@@ -1476,16 +1680,16 @@
             }
 
             .hero-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
 
             .hero-subtitle {
-                font-size: 1rem;
+                font-size: 0.875rem;
             }
 
             .cta-button {
-                padding: 0.875rem 1.5rem;
-                font-size: 0.875rem;
+                padding: 0.625rem 1.25rem;
+                font-size: 0.75rem;
             }
 
             @keyframes slideInRight {
@@ -1644,6 +1848,22 @@
 
         <!-- Mobile Sidebar Content -->
         <div class="mobile-sidebar">
+            <!-- Profile Widget -->
+            <div class="mobile-widget mobile-profile-widget">
+                <h3 class="mobile-profile-header">👤 プロフィール</h3>
+                <div class="mobile-profile-content">
+                    <div class="mobile-profile-avatar">🧭</div>
+                    <div class="mobile-profile-name">テックナビゲーター</div>
+                    <div class="mobile-profile-title">ガジェット・テクノロジー専門ライター</div>
+                    <div class="mobile-profile-links">
+                        <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
+                        <a href="#" class="profile-link github" title="GitHub">⚡</a>
+                        <a href="#" class="profile-link youtube" title="YouTube">📺</a>
+                        <a href="#" class="profile-link email" title="Email">📧</a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Categories Widget -->
             <div class="mobile-widget">
                 <h3 class="mobile-widget-title">📁 カテゴリー</h3>
@@ -1715,7 +1935,7 @@
             <div class="container">
                 <div class="trending-content">
                     <h2 class="trending-title">📈 トレンド情報</h2>
-                    <p class="trending-subtitle">今週の人気記事と急上昇キーワード</p>
+                    <p class="trending-subtitle">今週の人気記事と統計</p>
                     
                     <div class="trending-stats">
                         <div class="stat-item">
@@ -1734,16 +1954,6 @@
                             <div class="stat-number" id="usersCount">567</div>
                             <div class="stat-label">アクティブユーザー</div>
                         </div>
-                    </div>
-
-                    <div class="trending-keywords">
-                        <span class="trending-tag">iPhone 16</span>
-                        <span class="trending-tag">MacBook Pro</span>
-                        <span class="trending-tag">AI</span>
-                        <span class="trending-tag">ワイヤレス</span>
-                        <span class="trending-tag">レビュー</span>
-                        <span class="trending-tag">比較</span>
-                        <span class="trending-tag">新製品</span>
                     </div>
                 </div>
             </div>
@@ -2041,6 +2251,48 @@
 
             <!-- Sidebar -->
             <aside class="sidebar">
+                <!-- Profile Widget -->
+                <div class="profile-widget fade-in-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">🧭</div>
+                        <h3 class="profile-name">テックナビゲーター</h3>
+                        <p class="profile-title">ガジェット・テクノロジー専門ライター</p>
+                        <p class="profile-bio">最新テクノロジーの海を航海し、皆さんに価値ある情報をお届けします</p>
+                    </div>
+                    <div class="profile-content">
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">156</div>
+                                <div class="profile-stat-label">記事数</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">2.4K</div>
+                                <div class="profile-stat-label">フォロワー</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">89</div>
+                                <div class="profile-stat-label">レビュー</div>
+                            </div>
+                        </div>
+                        <div class="profile-links">
+                            <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
+                            <a href="#" class="profile-link github" title="GitHub">⚡</a>
+                            <a href="#" class="profile-link youtube" title="YouTube">📺</a>
+                            <a href="#" class="profile-link email" title="Email">📧</a>
+                        </div>
+                        <div class="profile-specialties">
+                            <div class="profile-specialty-title">専門分野</div>
+                            <div class="profile-tags">
+                                <span class="profile-tag">スマートフォン</span>
+                                <span class="profile-tag">AI・機械学習</span>
+                                <span class="profile-tag">サーバー構築</span>
+                                <span class="profile-tag">開発ツール</span>
+                                <span class="profile-tag">クラウド</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Categories Widget -->
                 <div class="sidebar-widget fade-in-card">
                     <h3 class="widget-title">📁 カテゴリー</h3>
