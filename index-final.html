@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ガジェットコンパス🧭 | ガジェット探求の旅に終わりはない</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="最新ガジェットから技術解説まで、ITの世界を深く掘り下げるガジェットレビューサイト">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
         
@@ -47,6 +54,18 @@
             z-index: 100;
             backdrop-filter: blur(10px);
             box-shadow: var(--shadow);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--secondary-blue));
+            z-index: 1001;
+            transition: width 0.1s ease;
         }
 
         .container {
@@ -216,6 +235,48 @@
 
         .nav-emoji {
             font-size: 1rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
         /* Hero Section */
@@ -444,11 +505,26 @@
             overflow: hidden;
             background: var(--bg-white);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .article-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.02);
             box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-blue);
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .article-card:hover .tag {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .article-image {
@@ -460,6 +536,8 @@
             color: white;
             font-size: 3rem;
             position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
         }
 
         .article-content {
@@ -507,6 +585,35 @@
             gap: 1rem;
         }
 
+        .article-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .difficulty-badge {
+            background: var(--accent-orange);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .difficulty-beginner { background: #10b981; }
+        .difficulty-intermediate { background: #f59e0b; }
+        .difficulty-advanced { background: #ef4444; }
+
         .rating {
             display: flex;
             align-items: center;
@@ -542,6 +649,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        /* Favorite Button */
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .favorite-btn:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            color: #ef4444;
+            animation: heartBeat 0.6s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.15); }
         }
 
         .read-more {
@@ -1000,6 +1137,122 @@
             background: #ea580c;
         }
 
+        /* Trending Section */
+        .trending-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            margin: 3rem 0;
+        }
+
+        .trending-content {
+            text-align: center;
+        }
+
+        .trending-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .trending-subtitle {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .trending-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-orange);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .trending-keywords {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .trending-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .trending-tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Filter and Sort Controls */
+        .content-controls {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select, .sort-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus, .sort-select:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
         /* Mobile Styles */
         @media (max-width: 768px) {
             .header-actions .search-container {
@@ -1107,6 +1360,9 @@
     </style>
 </head>
 <body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -1194,6 +1450,21 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="/" class="breadcrumb-link">🏠 ホーム</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-current">トップページ</span>
+                </li>
+            </ol>
         </div>
     </nav>
 
@@ -1288,9 +1559,79 @@
 
     <!-- Main Container -->
     <div class="container" id="content">
+        <!-- Trending Section -->
+        <section class="trending-section fade-in-card">
+            <div class="container">
+                <div class="trending-content">
+                    <h2 class="trending-title">📈 トレンド情報</h2>
+                    <p class="trending-subtitle">今週の人気記事と急上昇キーワード</p>
+                    
+                    <div class="trending-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="viewsCount">1,234</div>
+                            <div class="stat-label">今週の閲覧数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="articlesCount">156</div>
+                            <div class="stat-label">総記事数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="commentsCount">89</div>
+                            <div class="stat-label">今週のコメント</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="usersCount">567</div>
+                            <div class="stat-label">アクティブユーザー</div>
+                        </div>
+                    </div>
+
+                    <div class="trending-keywords">
+                        <span class="trending-tag">iPhone 16</span>
+                        <span class="trending-tag">MacBook Pro</span>
+                        <span class="trending-tag">AI</span>
+                        <span class="trending-tag">ワイヤレス</span>
+                        <span class="trending-tag">レビュー</span>
+                        <span class="trending-tag">比較</span>
+                        <span class="trending-tag">新製品</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="main-container">
             <!-- Main Content -->
             <main class="main-content">
+                <!-- Content Controls -->
+                <div class="content-controls">
+                    <div class="filter-group">
+                        <span class="filter-label">フィルター:</span>
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">すべてのカテゴリー</option>
+                            <option value="smartphone">📱 スマートフォン</option>
+                            <option value="pc">💻 PC・ノート</option>
+                            <option value="audio">🎧 オーディオ</option>
+                            <option value="camera">📷 カメラ</option>
+                            <option value="wearable">⌚ ウェアラブル</option>
+                        </select>
+                        <select class="filter-select" id="tagFilter">
+                            <option value="">すべてのタグ</option>
+                            <option value="review">レビュー</option>
+                            <option value="new">新製品</option>
+                            <option value="comparison">比較</option>
+                            <option value="recommended">おすすめ</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">並び順:</span>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="latest">最新順</option>
+                            <option value="popular">人気順</option>
+                            <option value="rating">評価順</option>
+                            <option value="views">閲覧数順</option>
+                        </select>
+                    </div>
+                </div>
+
                 <!-- Featured Section -->
                 <section class="featured-section">
                     <div class="section-header">
@@ -1325,12 +1666,31 @@
                                         <span>💬 15 comments</span>
                                     </div>
                                 </div>
+                                <div class="article-details">
+                                    <div class="detail-item">
+                                        <span>📅</span>
+                                        <span>2024年7月28日</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>📝</span>
+                                        <span>3,456文字</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span>🎯</span>
+                                        <span class="difficulty-badge difficulty-intermediate">中級者</span>
+                                    </div>
+                                </div>
                                 <p class="article-excerpt">最新のiPhone 16 Pro Maxを2週間使い込んでわかった、カメラ機能の実力とは？プロ仕様の撮影機能から日常使いまで、詳細にテストした結果をお届けします。新しいシネマティックモードと夜景撮影の進化に注目。</p>
                                 <div class="article-footer">
                                     <a href="#" class="read-more">続きを読む</a>
-                                    <div class="share-buttons">
-                                        <a href="#" class="share-btn twitter">𝕏</a>
-                                        <a href="#" class="share-btn facebook">f</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="featured-1">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1372,9 +1732,14 @@
                                 <p class="article-excerpt">React 19で追加された新機能を実際のプロジェクトに導入。Server Componentsやuseフックの使い勝手を詳しく解説します。パフォーマンス向上と開発体験の改善についても検証。</p>
                                 <div class="article-footer">
                                     <a href="#" class="read-more">続きを読む</a>
-                                    <div class="share-buttons">
-                                        <a href="#" class="share-btn twitter">𝕏</a>
-                                        <a href="#" class="share-btn facebook">f</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-1">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1407,9 +1772,14 @@
                                 <p class="article-excerpt">自宅でエンタープライズレベルのサーバー環境を構築。Proxmoxを使った仮想化クラスターの設定から運用まで詳しく解説。冗長化とバックアップ戦略も含めた完全ガイド。</p>
                                 <div class="article-footer">
                                     <a href="#" class="read-more">続きを読む</a>
-                                    <div class="share-buttons">
-                                        <a href="#" class="share-btn twitter">𝕏</a>
-                                        <a href="#" class="share-btn facebook">f</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-2">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1442,9 +1812,14 @@
                                 <p class="article-excerpt">長時間使用での快適さと音質の両立を果たした最新モデルを徹底比較。通勤時間も集中作業も、雑音を忘れて没入できるおすすめイヤホンをランキング形式でお届け。</p>
                                 <div class="article-footer">
                                     <a href="#" class="read-more">続きを読む</a>
-                                    <div class="share-buttons">
-                                        <a href="#" class="share-btn twitter">𝕏</a>
-                                        <a href="#" class="share-btn facebook">f</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-3">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1646,6 +2021,140 @@
         }
 
         window.addEventListener('scroll', onScroll);
+
+        // Progress Bar
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Favorite functionality
+        function toggleFavorite(button) {
+            const articleId = button.getAttribute('data-article');
+            const isActive = button.classList.contains('active');
+            
+            if (isActive) {
+                button.classList.remove('active');
+                button.innerHTML = '♡';
+                removeFavorite(articleId);
+            } else {
+                button.classList.add('active');
+                button.innerHTML = '♥';
+                addFavorite(articleId);
+            }
+        }
+
+        function addFavorite(articleId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            if (!favorites.includes(articleId)) {
+                favorites.push(articleId);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            }
+        }
+
+        function removeFavorite(articleId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            favorites = favorites.filter(id => id !== articleId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // Load favorites on page load
+        function loadFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            favorites.forEach(articleId => {
+                const button = document.querySelector(`[data-article="${articleId}"]`);
+                if (button) {
+                    button.classList.add('active');
+                    button.innerHTML = '♥';
+                }
+            });
+        }
+
+        // Initialize favorites when DOM is loaded
+        document.addEventListener('DOMContentLoaded', loadFavorites);
+
+        // Filter and Sort functionality
+        function setupFilterAndSort() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const tagFilter = document.getElementById('tagFilter');
+            const sortSelect = document.getElementById('sortSelect');
+
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterArticles);
+            }
+            if (tagFilter) {
+                tagFilter.addEventListener('change', filterArticles);
+            }
+            if (sortSelect) {
+                sortSelect.addEventListener('change', sortArticles);
+            }
+        }
+
+        function filterArticles() {
+            // Filter functionality would be implemented here
+            console.log('Filtering articles...');
+        }
+
+        function sortArticles() {
+            // Sort functionality would be implemented here
+            console.log('Sorting articles...');
+        }
+
+        // Animated counter for trending stats
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/,/g, ''));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFavorites();
+            setupFilterAndSort();
+            animateCounters();
+        });
+
+        // PWA Installation
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button (you could add this to the UI)
+            console.log('PWA install prompt available');
+        });
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
 
         // Intersection Observer for fade-in animations
         function setupFadeInAnimations() {
