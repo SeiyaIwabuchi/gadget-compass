@@ -1,0 +1,2849 @@
+---
+
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ガジェットコンパス🧭 | ガジェット探求の旅に終わりはない</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="最新ガジェットから技術解説まで、ITの世界を深く掘り下げるガジェットレビューサイト">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --accent-orange: #f97316;
+            --bg-white: #ffffff;
+            --bg-gray: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            background: var(--bg-gray);
+            font-size: 16px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--secondary-blue));
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .compass-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            transition: transform 0.1s ease-out;
+        }
+
+        .compass-logo:hover {
+            transform: rotate(45deg);
+        }
+
+        .compass-logo::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: var(--accent-orange);
+            border-radius: 1px;
+            transform: translateY(-2px);
+        }
+
+        .site-info h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .site-tagline {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            background: var(--bg-gray);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .nav-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 1px;
+        }
+
+        .nav-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            border-bottom-color: var(--secondary-blue);
+        }
+
+        .nav-emoji {
+            font-size: 1rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breadcrumb-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-light);
+        }
+
+        .breadcrumb-current {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Hero Section - Compact */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-orange);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.9s forwards;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Fade-in animation for cards */
+        .fade-in-card {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation delays */
+        .fade-in-card:nth-child(1) {
+            transition-delay: 0s;
+        }
+
+        .fade-in-card:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .fade-in-card:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .fade-in-card:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        .fade-in-card:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
+        /* Main Content */
+        .main-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .main-content {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Article Cards */
+        .article-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 1.5rem;
+            padding-top: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Featured Section */
+        .featured-section {
+            margin-bottom: 2rem;
+        }
+
+        .featured-article-container {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .featured-article-card {
+            background: var(--bg-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--secondary-blue);
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 0;
+        }
+
+        .featured-article-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .featured-article-image {
+            height: auto;
+            min-height: 250px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .featured-article-content {
+            padding: 2rem;
+        }
+
+        .featured-article-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        /* Ranking Styles */
+        .ranking-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .ranking-item {
+            display: flex;
+            background: var(--bg-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .ranking-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-blue);
+        }
+
+        .ranking-item.rank-1 {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .ranking-item.rank-2 {
+            border-color: #c0c0c0;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+        }
+
+        .ranking-item.rank-3 {
+            border-color: #cd7f32;
+            box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+        }
+
+        .ranking-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            z-index: 10;
+        }
+
+        .ranking-number.rank-1 {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .ranking-number.rank-2 {
+            background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+            box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
+        }
+
+        .ranking-number.rank-3 {
+            background: linear-gradient(135deg, #cd7f32, #d4af37);
+            box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
+        }
+
+        .ranking-image {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .ranking-content {
+            flex: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .ranking-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .ranking-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .ranking-excerpt {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .ranking-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Recent Section */
+        .recent-section {
+            border-top: 1px solid var(--border);
+        }
+
+        .article-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-white);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary-blue);
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .article-card:hover .tag {
+            animation: pulse 0.6s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .article-image {
+            height: 200px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .article-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .article-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .difficulty-badge {
+            background: var(--accent-orange);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .difficulty-beginner { background: #10b981; }
+        .difficulty-intermediate { background: #f59e0b; }
+        .difficulty-advanced { background: #ef4444; }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+
+        .read-time {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .article-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Favorite Button */
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+        }
+
+        .favorite-btn:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            color: #ef4444;
+            animation: heartBeat 0.6s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            50% { transform: scale(1.1); }
+            75% { transform: scale(1.15); }
+        }
+
+        .read-more {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .read-more:hover {
+            color: var(--primary-blue);
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .share-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 0.875rem;
+            transition: transform 0.2s ease;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .share-btn.twitter {
+            background: #1da1f2;
+        }
+
+        .share-btn.facebook {
+            background: #4267b2;
+        }
+
+        /* Profile Widget */
+        .profile-widget {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .profile-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .profile-content {
+            padding: 1.5rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stat {
+            text-align: center;
+        }
+
+        .profile-stat-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-link:hover {
+            transform: translateY(-2px) scale(1.1);
+        }
+
+        .profile-link.twitter {
+            background: #1da1f2;
+        }
+
+        .profile-link.github {
+            background: #333;
+        }
+
+        .profile-link.youtube {
+            background: #ff0000;
+        }
+
+        .profile-link.email {
+            background: var(--accent-orange);
+        }
+
+        .profile-specialties {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .profile-specialty-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .profile-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Profile Widget */
+        .mobile-profile-widget {
+            background: var(--bg-white);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-profile-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-profile-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-profile-info {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        }
+
+        .mobile-profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .mobile-profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-title {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-bio {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .mobile-profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-profile-stat {
+            text-align: center;
+        }
+
+        .mobile-profile-stat-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .mobile-profile-links {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-profile-links .profile-link {
+            width: 35px;
+            height: 35px;
+            font-size: 0.875rem;
+        }
+
+        .mobile-profile-specialties {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .mobile-profile-specialty-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .mobile-profile-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Sidebar Widgets */
+        .sidebar-widget {
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .widget-content {
+            padding: 1.5rem;
+        }
+
+        .widget-title {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .category-list,
+        .popular-list {
+            list-style: none;
+        }
+
+        .category-item,
+        .popular-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-item:last-child,
+        .popular-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-link,
+        .popular-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .category-link:hover,
+        .popular-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag-cloud .tag {
+            font-size: 0.8rem;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--bg-white);
+        }
+
+        .newsletter .widget-content {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .newsletter-text {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .newsletter-btn {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .newsletter-btn:hover {
+            background: #ea580c;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 1rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .content-categories {
+            background: var(--bg-white);
+            border-top: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .category-nav a:hover {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Newsletter Subscribe Section */
+        .newsletter-subscribe {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 4rem 0;
+            margin-top: 3rem;
+        }
+
+        .newsletter-subscribe-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-subscribe-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .newsletter-subscribe-text {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .newsletter-subscribe-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 400px;
+            margin: 0 auto 1rem;
+            flex-direction: column;
+        }
+
+        .newsletter-subscribe-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .newsletter-subscribe-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .newsletter-subscribe-btn {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-subscribe-btn:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+        }
+
+        .newsletter-subscribe-note {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .newsletter-subscribe-form {
+                flex-direction: row;
+            }
+
+            .newsletter-subscribe-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Mobile Menu - Hidden by default */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100vh;
+            background: var(--bg-white);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            z-index: 10;
+        }
+
+        .mobile-sidebar {
+            margin-top: 1rem;
+        }
+
+        .mobile-menu .search-container {
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-widget {
+            margin-bottom: 2rem;
+            border-bottom: none;
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .mobile-widget:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-widget-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-widget-title {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-category-list,
+        .mobile-popular-list {
+            list-style: none;
+        }
+
+        .mobile-category-list li,
+        .mobile-popular-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .mobile-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .mobile-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        .mobile-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .mobile-tag-cloud .tag {
+            font-size: 0.8rem;
+        }
+
+        .mobile-newsletter {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            border-bottom: none !important;
+            overflow: hidden;
+        }
+
+        .mobile-newsletter-title {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-newsletter-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-newsletter-text {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .mobile-newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-newsletter-input {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .mobile-newsletter-btn {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-newsletter-btn:hover {
+            background: #ea580c;
+        }
+
+        /* Trending Section - Compact */
+        .trending-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin: 1.5rem 0;
+        }
+
+        .trending-content {
+            text-align: center;
+        }
+
+        .trending-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .trending-subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .trending-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--accent-orange);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .trending-keywords {
+            display: none;
+        }
+
+        .trending-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .trending-tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Filter and Sort Controls */
+        .content-controls {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select, .sort-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus, .sort-select:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .header-actions .search-container {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-menu.active {
+                display: block;
+                animation: slideInRight 0.3s ease;
+            }
+
+            .mobile-menu.closing {
+                display: block;
+                animation: slideOutRight 0.3s ease;
+            }
+
+            .mobile-menu .search-input {
+                width: 100%;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .category-nav {
+                gap: 1rem;
+            }
+
+            /* Featured article responsive */
+            .featured-article-card {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-article-image {
+                min-height: 200px;
+            }
+
+            .featured-article-content {
+                padding: 1.5rem;
+            }
+
+            .featured-article-title {
+                font-size: 1.25rem;
+            }
+
+            /* Ranking responsive */
+            .ranking-item {
+                flex-direction: column;
+            }
+
+            .ranking-image {
+                width: 100%;
+                height: 100px;
+            }
+
+            .ranking-content {
+                padding: 1rem;
+            }
+
+            .ranking-title {
+                font-size: 0.9rem;
+            }
+
+            .ranking-excerpt {
+                font-size: 0.8rem;
+            }
+
+            .ranking-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .section-header {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .article-stats {
+                font-size: 0.75rem;
+            }
+
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.875rem;
+            }
+
+            .cta-button {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.75rem;
+            }
+
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(100%);
+                }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="compass-logo">🧭</div>
+                    <div class="site-info">
+                        <h1>ガジェットコンパス</h1>
+                        <div class="site-tagline">ガジェット探求の旅に終わりはない</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="記事を検索...">
+                    </div>
+                    <div class="hamburger" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <span class="nav-emoji">🏠</span>
+                            ホーム
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">📱</span>
+                            スマートフォン
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">💻</span>
+                            PC・ノート
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">🎧</span>
+                            オーディオ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">📷</span>
+                            カメラ
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">⌚</span>
+                            ウェアラブル
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">🏠</span>
+                            スマートホーム
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">🎮</span>
+                            ゲーミング
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-emoji">🔧</span>
+                            テック考察
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <div class="container">
+            <ol class="breadcrumb-list">
+                <li class="breadcrumb-item">
+                    <a href="/" class="breadcrumb-link">🏠 ホーム</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-current">トップページ</span>
+                </li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">探求の旅へようこそ</h1>
+                <p class="hero-subtitle">最新ガジェットから技術解説まで、ITの世界を深く掘り下げます</p>
+                <a href="#content" class="cta-button">
+                    探求を始める
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-close" onclick="toggleMobileMenu()">✕</div>
+        
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="記事を検索...">
+        </div>
+
+        <!-- Mobile Sidebar Content -->
+        <div class="mobile-sidebar">
+            <!-- Profile Widget -->
+            <div class="mobile-widget mobile-profile-widget">
+                <h3 class="mobile-profile-header">👤 プロフィール</h3>
+                <div class="mobile-profile-content">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-avatar">🧭</div>
+                        <div class="mobile-profile-name">テックナビゲーター</div>
+                        <div class="mobile-profile-title">ガジェット・テクノロジー専門ライター</div>
+                        <div class="mobile-profile-bio">最新ガジェットから技術解説まで、わかりやすく深掘りしてお届けします。</div>
+                    </div>
+                    
+                    <div class="mobile-profile-stats">
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">156</div>
+                            <div class="mobile-profile-stat-label">記事</div>
+                        </div>
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">2.4K</div>
+                            <div class="mobile-profile-stat-label">フォロワー</div>
+                        </div>
+                        <div class="mobile-profile-stat">
+                            <div class="mobile-profile-stat-number">89</div>
+                            <div class="mobile-profile-stat-label">レビュー</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-profile-links">
+                        <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
+                        <a href="#" class="profile-link github" title="GitHub">⚡</a>
+                        <a href="#" class="profile-link youtube" title="YouTube">📺</a>
+                        <a href="#" class="profile-link email" title="Email">📧</a>
+                    </div>
+                    
+                    <div class="mobile-profile-specialties">
+                        <div class="mobile-profile-specialty-title">専門分野</div>
+                        <div class="mobile-profile-tags">
+                            <span class="mobile-profile-tag">スマートフォン</span>
+                            <span class="mobile-profile-tag">PC・ガジェット</span>
+                            <span class="mobile-profile-tag">オーディオ</span>
+                            <span class="mobile-profile-tag">カメラ</span>
+                            <span class="mobile-profile-tag">AI・IoT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="mobile-widget">
+                <h3 class="mobile-widget-title">📁 カテゴリー</h3>
+                <div class="mobile-widget-content">
+                    <ul class="mobile-category-list">
+                        <li><a href="#" class="mobile-link">スマートフォン (24)</a></li>
+                        <li><a href="#" class="mobile-link">PC・ノート (18)</a></li>
+                        <li><a href="#" class="mobile-link">オーディオ (15)</a></li>
+                        <li><a href="#" class="mobile-link">カメラ (12)</a></li>
+                        <li><a href="#" class="mobile-link">ウェアラブル (9)</a></li>
+                        <li><a href="#" class="mobile-link">スマートホーム (7)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Popular Articles Widget -->
+            <div class="mobile-widget">
+                <h3 class="mobile-widget-title">🔥 人気の記事</h3>
+                <div class="mobile-widget-content">
+                    <ul class="mobile-popular-list">
+                        <li><a href="#" class="mobile-link">iPhone 15 Pro徹底レビュー</a></li>
+                        <li><a href="#" class="mobile-link">MacBook Air M2の実力検証</a></li>
+                        <li><a href="#" class="mobile-link">AirPods Pro第3世代登場</a></li>
+                        <li><a href="#" class="mobile-link">Sony α7R V完全ガイド</a></li>
+                        <li><a href="#" class="mobile-link">Apple Watch Series 9新機能</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tag Cloud Widget -->
+            <div class="mobile-widget">
+                <h3 class="mobile-widget-title">🏷️ タグクラウド</h3>
+                <div class="mobile-widget-content">
+                    <div class="mobile-tag-cloud">
+                        <span class="tag">レビュー</span>
+                        <span class="tag">新製品</span>
+                        <span class="tag">比較</span>
+                        <span class="tag">おすすめ</span>
+                        <span class="tag">iPhone</span>
+                        <span class="tag">Android</span>
+                        <span class="tag">MacBook</span>
+                        <span class="tag">Windows</span>
+                        <span class="tag">カメラ</span>
+                        <span class="tag">音質</span>
+                        <span class="tag">バッテリー</span>
+                        <span class="tag">コスパ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Newsletter Widget -->
+            <div class="mobile-widget mobile-newsletter">
+                <h3 class="mobile-newsletter-title">📬 最新情報をお届け</h3>
+                <div class="mobile-newsletter-content">
+                    <p class="mobile-newsletter-text">新記事の通知やX更新情報をメールでお届けします</p>
+                    <form class="mobile-newsletter-form">
+                        <input type="email" class="mobile-newsletter-input" placeholder="メールアドレス">
+                        <button type="submit" class="mobile-newsletter-btn">登録</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="content">
+        <!-- Trending Section -->
+        <section class="trending-section fade-in-card">
+            <div class="container">
+                <div class="trending-content">
+                    <h2 class="trending-title">📈 トレンド情報</h2>
+                    <p class="trending-subtitle">今週の人気記事と統計</p>
+                    
+                    <div class="trending-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="viewsCount">1,234</div>
+                            <div class="stat-label">今週の閲覧数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="articlesCount">156</div>
+                            <div class="stat-label">総記事数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="commentsCount">89</div>
+                            <div class="stat-label">今週のコメント</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="usersCount">567</div>
+                            <div class="stat-label">アクティブユーザー</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-container">
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Content Controls -->
+                <div class="content-controls">
+                    <div class="filter-group">
+                        <span class="filter-label">フィルター:</span>
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">すべてのカテゴリー</option>
+                            <option value="smartphone">📱 スマートフォン</option>
+                            <option value="pc">💻 PC・ノート</option>
+                            <option value="audio">🎧 オーディオ</option>
+                            <option value="camera">📷 カメラ</option>
+                            <option value="wearable">⌚ ウェアラブル</option>
+                        </select>
+                        <select class="filter-select" id="tagFilter">
+                            <option value="">すべてのタグ</option>
+                            <option value="review">レビュー</option>
+                            <option value="new">新製品</option>
+                            <option value="comparison">比較</option>
+                            <option value="recommended">おすすめ</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">並び順:</span>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="latest">最新順</option>
+                            <option value="popular">人気順</option>
+                            <option value="rating">評価順</option>
+                            <option value="views">閲覧数順</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Featured Section -->
+                <section class="featured-section">
+                    <div class="section-header">
+                        <div class="section-icon">🏆</div>
+                        <h2 class="section-title">注目の記事ランキング</h2>
+                    </div>
+                    <div class="ranking-container">
+                        <!-- 1位 -->
+                        <article class="ranking-item rank-1 fade-in-card">
+                            <div class="ranking-number rank-1">1</div>
+                            <div class="ranking-image">📱</div>
+                            <div class="ranking-content">
+                                <div class="article-tags">
+                                    <span class="tag">レビュー</span>
+                                    <span class="tag">新製品</span>
+                                    <span class="tag">注目</span>
+                                </div>
+                                <h3 class="ranking-title">iPhone 16 Pro Max 徹底レビュー：カメラ性能の進化を検証</h3>
+                                <div class="ranking-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span>5.0</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約15分</span>
+                                    </div>
+                                </div>
+                                <p class="ranking-excerpt">最新のiPhone 16 Pro Maxを2週間使い込んでわかった、カメラ機能の実力とは？プロ仕様の撮影機能から日常使いまで、詳細にテストした結果をお届けします。</p>
+                                <div class="ranking-stats">
+                                    <span>👀 2,456 views</span>
+                                    <span>💬 28 comments</span>
+                                    <span>❤️ 156 likes</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 2位 -->
+                        <article class="ranking-item rank-2 fade-in-card">
+                            <div class="ranking-number rank-2">2</div>
+                            <div class="ranking-image">💻</div>
+                            <div class="ranking-content">
+                                <div class="article-tags">
+                                    <span class="tag">レビュー</span>
+                                    <span class="tag">Apple</span>
+                                    <span class="tag">比較</span>
+                                </div>
+                                <h3 class="ranking-title">MacBook Air M3 vs M2：買い替えるべき？性能差を徹底比較</h3>
+                                <div class="ranking-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">☆</span>
+                                        <span>4.7</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約12分</span>
+                                    </div>
+                                </div>
+                                <p class="ranking-excerpt">新チップM3搭載のMacBook Airが登場。M2モデルとの性能差、価格差を詳しく検証し、買い替えの判断基準をお伝えします。</p>
+                                <div class="ranking-stats">
+                                    <span>👀 1,892 views</span>
+                                    <span>💬 19 comments</span>
+                                    <span>❤️ 98 likes</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- 3位 -->
+                        <article class="ranking-item rank-3 fade-in-card">
+                            <div class="ranking-number rank-3">3</div>
+                            <div class="ranking-image">🎧</div>
+                            <div class="ranking-content">
+                                <div class="article-tags">
+                                    <span class="tag">オーディオ</span>
+                                    <span class="tag">ワイヤレス</span>
+                                    <span class="tag">おすすめ</span>
+                                </div>
+                                <h3 class="ranking-title">2024年最強ワイヤレスイヤホン10選：音質・機能・コスパで厳選</h3>
+                                <div class="ranking-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">☆</span>
+                                        <span>4.5</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約18分</span>
+                                    </div>
+                                </div>
+                                <p class="ranking-excerpt">価格帯別に厳選したワイヤレスイヤホンを徹底比較。音質、ノイズキャンセリング、バッテリー持続時間など、あらゆる角度から評価しました。</p>
+                                <div class="ranking-stats">
+                                    <span>👀 1,567 views</span>
+                                    <span>💬 15 comments</span>
+                                    <span>❤️ 87 likes</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Recent Section -->
+                <section class="recent-section">
+                    <div class="section-header">
+                        <div class="section-icon">🔄</div>
+                        <h2 class="section-title">最新記事</h2>
+                    </div>
+                    <div class="article-list">
+                        <!-- Article 1 -->
+                        <article class="article-card fade-in-card">
+                            <div class="article-image">💻</div>
+                            <div class="article-content">
+                                <div class="article-tags">
+                                    <span class="tag">プログラミング</span>
+                                    <span class="tag">React</span>
+                                    <span class="tag">新機能</span>
+                                </div>
+                                <h2 class="article-title">React 19の新機能を実際のプロジェクトで試してみた</h2>
+                                <div class="article-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">☆</span>
+                                        <span>4.2</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約10分</span>
+                                    </div>
+                                </div>
+                                <p class="article-excerpt">React 19で追加された新機能を実際のプロジェクトに導入。Server Componentsやuseフックの使い勝手を詳しく解説します。パフォーマンス向上と開発体験の改善についても検証。</p>
+                                <div class="article-stats">
+                                    <span>👀 892 views</span>
+                                    <span>💬 12 comments</span>
+                                    <span>❤️ 45 likes</span>
+                                </div>
+                                <div class="article-footer">
+                                    <a href="#" class="read-more">続きを読む</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-1">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Article 2 -->
+                        <article class="article-card fade-in-card">
+                            <div class="article-image">🖥️</div>
+                            <div class="article-content">
+                                <div class="article-tags">
+                                    <span class="tag">サーバー</span>
+                                    <span class="tag">自宅ラボ</span>
+                                    <span class="tag">Proxmox</span>
+                                </div>
+                                <h2 class="article-title">自宅ラボ構築ガイド：ProxmoxでVMクラスター環境を作る</h2>
+                                <div class="article-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span>4.8</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約20分</span>
+                                    </div>
+                                </div>
+                                <p class="article-excerpt">自宅でエンタープライズレベルのサーバー環境を構築。Proxmoxを使った仮想化クラスターの設定から運用まで詳しく解説。冗長化とバックアップ戦略も含めた完全ガイド。</p>
+                                <div class="article-stats">
+                                    <span>👀 1,234 views</span>
+                                    <span>💬 18 comments</span>
+                                    <span>❤️ 67 likes</span>
+                                </div>
+                                <div class="article-footer">
+                                    <a href="#" class="read-more">続きを読む</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-2">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Article 3 -->
+                        <article class="article-card fade-in-card">
+                            <div class="article-image">🎧</div>
+                            <div class="article-content">
+                                <div class="article-tags">
+                                    <span class="tag">オーディオ</span>
+                                    <span class="tag">ワイヤレス</span>
+                                    <span class="tag">ノイズキャンセリング</span>
+                                </div>
+                                <h2 class="article-title">没入感が違う！最新ノイズキャンセリングイヤホン比較 - 音質と快適性の新基準</h2>
+                                <div class="article-meta">
+                                    <div class="rating">
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">★</span>
+                                        <span class="star">☆</span>
+                                        <span>4.2</span>
+                                    </div>
+                                    <div class="read-time">
+                                        <span>🕒</span>
+                                        <span>約6分</span>
+                                    </div>
+                                </div>
+                                <p class="article-excerpt">長時間使用での快適さと音質の両立を果たした最新モデルを徹底比較。通勤時間も集中作業も、雑音を忘れて没入できるおすすめイヤホンをランキング形式でお届け。</p>
+                                <div class="article-stats">
+                                    <span>👀 756 views</span>
+                                    <span>💬 8 comments</span>
+                                    <span>❤️ 32 likes</span>
+                                </div>
+                                <div class="article-footer">
+                                    <a href="#" class="read-more">続きを読む</a>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <button class="favorite-btn" onclick="toggleFavorite(this)" data-article="article-3">
+                                            ♡
+                                        </button>
+                                        <div class="share-buttons">
+                                            <a href="#" class="share-btn twitter">𝕏</a>
+                                            <a href="#" class="share-btn facebook">f</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Profile Widget -->
+                <div class="profile-widget fade-in-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">🧭</div>
+                        <h3 class="profile-name">テックナビゲーター</h3>
+                        <p class="profile-title">ガジェット・テクノロジー専門ライター</p>
+                        <p class="profile-bio">最新テクノロジーの海を航海し、皆さんに価値ある情報をお届けします</p>
+                    </div>
+                    <div class="profile-content">
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">156</div>
+                                <div class="profile-stat-label">記事数</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">2.4K</div>
+                                <div class="profile-stat-label">フォロワー</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-number">89</div>
+                                <div class="profile-stat-label">レビュー</div>
+                            </div>
+                        </div>
+                        <div class="profile-links">
+                            <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
+                            <a href="#" class="profile-link github" title="GitHub">⚡</a>
+                            <a href="#" class="profile-link youtube" title="YouTube">📺</a>
+                            <a href="#" class="profile-link email" title="Email">📧</a>
+                        </div>
+                        <div class="profile-specialties">
+                            <div class="profile-specialty-title">専門分野</div>
+                            <div class="profile-tags">
+                                <span class="profile-tag">スマートフォン</span>
+                                <span class="profile-tag">AI・機械学習</span>
+                                <span class="profile-tag">サーバー構築</span>
+                                <span class="profile-tag">開発ツール</span>
+                                <span class="profile-tag">クラウド</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="sidebar-widget fade-in-card">
+                    <h3 class="widget-title">📁 カテゴリー</h3>
+                    <div class="widget-content">
+                        <ul class="category-list">
+                            <li class="category-item">
+                                <a href="#" class="category-link">スマートフォン (24)</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-link">PC・ノート (18)</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-link">オーディオ (15)</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-link">カメラ (12)</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-link">ウェアラブル (9)</a>
+                            </li>
+                            <li class="category-item">
+                                <a href="#" class="category-link">スマートホーム (7)</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Popular Articles Widget -->
+                <div class="sidebar-widget fade-in-card">
+                    <h3 class="widget-title">🔥 人気の記事</h3>
+                    <div class="widget-content">
+                        <ul class="popular-list">
+                            <li class="popular-item">
+                                <a href="#" class="popular-link">iPhone 15 Pro徹底レビュー</a>
+                            </li>
+                            <li class="popular-item">
+                                <a href="#" class="popular-link">MacBook Air M2の実力検証</a>
+                            </li>
+                            <li class="popular-item">
+                                <a href="#" class="popular-link">AirPods Pro第3世代登場</a>
+                            </li>
+                            <li class="popular-item">
+                                <a href="#" class="popular-link">Sony α7R V完全ガイド</a>
+                            </li>
+                            <li class="popular-item">
+                                <a href="#" class="popular-link">Apple Watch Series 9新機能</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tag Cloud Widget -->
+                <div class="sidebar-widget fade-in-card">
+                    <h3 class="widget-title">🏷️ タグクラウド</h3>
+                    <div class="widget-content">
+                        <div class="tag-cloud">
+                            <span class="tag">レビュー</span>
+                            <span class="tag">新製品</span>
+                            <span class="tag">比較</span>
+                            <span class="tag">おすすめ</span>
+                            <span class="tag">iPhone</span>
+                            <span class="tag">Android</span>
+                            <span class="tag">MacBook</span>
+                            <span class="tag">Windows</span>
+                            <span class="tag">カメラ</span>
+                            <span class="tag">音質</span>
+                            <span class="tag">バッテリー</span>
+                            <span class="tag">コスパ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Newsletter Widget -->
+                <div class="sidebar-widget newsletter fade-in-card">
+                    <h3 class="widget-title">📬 最新情報をお届け</h3>
+                    <div class="widget-content">
+                        <p class="newsletter-text">新記事の通知やX更新情報をメールでお届けします</p>
+                        <form class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="メールアドレス">
+                            <button type="submit" class="newsletter-btn">登録</button>
+                        </form>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Newsletter Subscribe Section -->
+    <section class="newsletter-subscribe">
+        <div class="container">
+            <div class="newsletter-subscribe-content">
+                <h2 class="newsletter-subscribe-title">最新情報をお届け</h2>
+                <p class="newsletter-subscribe-text">新着記事やガジェット情報、限定コンテンツをいち早くお届けします。メールアドレスをご登録ください。</p>
+                <form class="newsletter-subscribe-form">
+                    <input type="email" class="newsletter-subscribe-input" placeholder="メールアドレスを入力">
+                    <button type="submit" class="newsletter-subscribe-btn">登録する</button>
+                </form>
+                <p class="newsletter-subscribe-note">※ご登録いただいたメールアドレスは、本サービスのみに使用し、第三者に提供することはありません。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Categories -->
+    <section class="content-categories">
+        <div class="container">
+            <nav class="category-nav">
+                <a href="#">📱 スマートフォン</a>
+                <a href="#">💻 PC・ノート</a>
+                <a href="#">🎧 オーディオ</a>
+                <a href="#">📷 カメラ</a>
+                <a href="#">⌚ ウェアラブル</a>
+                <a href="#">🏠 スマートホーム</a>
+                <a href="#">🎮 ゲーミング</a>
+                <a href="#">🔧 テック考察</a>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ガジェットコンパス🧭</h3>
+                    <p>最新テクノロジーから実用的なデジタルツールまで、あなたのIT生活をより豊かにする情報をお届けします。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>カテゴリー</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">スマートフォン</a></li>
+                        <li><a href="#">PC・ノート</a></li>
+                        <li><a href="#">オーディオ</a></li>
+                        <li><a href="#">カメラ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>情報</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">プライバシーポリシー</a></li>
+                        <li><a href="#">利用規約</a></li>
+                        <li><a href="#">お問い合わせ</a></li>
+                        <li><a href="#">サイトマップ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>フォローする</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter/X</a></li>
+                        <li><a href="#">YouTube</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">RSS</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ガジェットコンパス. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Compass rotation based on scroll
+        let lastScrollTop = 0;
+        let compassRotation = 0;
+
+        function updateCompassRotation() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDelta = scrollTop - lastScrollTop;
+            
+            // Rotate compass based on scroll direction and speed
+            compassRotation += scrollDelta * 0.5; // Adjust multiplier for sensitivity
+            
+            const compass = document.querySelector('.compass-logo');
+            if (compass) {
+                compass.style.transform = `rotate(${compassRotation}deg)`;
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scrolling
+        }
+
+        // Throttle scroll events for better performance
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(updateCompassRotation);
+                ticking = true;
+                setTimeout(() => { ticking = false; }, 16); // ~60fps
+            }
+        }
+
+        window.addEventListener('scroll', onScroll);
+
+        // Progress Bar
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        }
+
+        window.addEventListener('scroll', updateProgressBar);
+
+        // Favorite functionality
+        function toggleFavorite(button) {
+            const articleId = button.getAttribute('data-article');
+            const isActive = button.classList.contains('active');
+            
+            if (isActive) {
+                button.classList.remove('active');
+                button.innerHTML = '♡';
+                removeFavorite(articleId);
+            } else {
+                button.classList.add('active');
+                button.innerHTML = '♥';
+                addFavorite(articleId);
+            }
+        }
+
+        function addFavorite(articleId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            if (!favorites.includes(articleId)) {
+                favorites.push(articleId);
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+            }
+        }
+
+        function removeFavorite(articleId) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            favorites = favorites.filter(id => id !== articleId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        }
+
+        // Load favorites on page load
+        function loadFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            favorites.forEach(articleId => {
+                const button = document.querySelector(`[data-article="${articleId}"]`);
+                if (button) {
+                    button.classList.add('active');
+                    button.innerHTML = '♥';
+                }
+            });
+        }
+
+        // Initialize favorites when DOM is loaded
+        document.addEventListener('DOMContentLoaded', loadFavorites);
+
+        // Filter and Sort functionality
+        function setupFilterAndSort() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const tagFilter = document.getElementById('tagFilter');
+            const sortSelect = document.getElementById('sortSelect');
+
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterArticles);
+            }
+            if (tagFilter) {
+                tagFilter.addEventListener('change', filterArticles);
+            }
+            if (sortSelect) {
+                sortSelect.addEventListener('change', sortArticles);
+            }
+        }
+
+        function filterArticles() {
+            // Filter functionality would be implemented here
+            console.log('Filtering articles...');
+        }
+
+        function sortArticles() {
+            // Sort functionality would be implemented here
+            console.log('Sorting articles...');
+        }
+
+        // Animated counter for trending stats
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent.replace(/,/g, ''));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFavorites();
+            setupFilterAndSort();
+            animateCounters();
+        });
+
+        // PWA Installation
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button (you could add this to the UI)
+            console.log('PWA install prompt available');
+        });
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Intersection Observer for fade-in animations
+        function setupFadeInAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in cards
+            document.querySelectorAll('.fade-in-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Initialize fade-in animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', setupFadeInAnimations);
+
+        // Smooth scroll for CTA button
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector('#content');
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (mobileMenu.classList.contains('active')) {
+                // Start closing animation
+                mobileMenu.classList.remove('active');
+                mobileMenu.classList.add('closing');
+                
+                // Hide menu after animation completes
+                setTimeout(() => {
+                    mobileMenu.classList.remove('closing');
+                    mobileMenu.style.display = 'none';
+                }, 300); // Match animation duration
+            } else {
+                // Show and start opening animation
+                mobileMenu.style.display = 'block';
+                mobileMenu.classList.add('active');
+            }
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target) && mobileMenu.classList.contains('active')) {
+                // Use the same animated closing logic
+                mobileMenu.classList.remove('active');
+                mobileMenu.classList.add('closing');
+                
+                setTimeout(() => {
+                    mobileMenu.classList.remove('closing');
+                    mobileMenu.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Handle tag clicks
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                console.log('Tag clicked:', this.textContent);
+                // Add filter functionality here
+            });
+        });
+
+        // Handle newsletter form (desktop)
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.newsletter-input').value;
+            if (email) {
+                alert('登録ありがとうございます！');
+                this.querySelector('.newsletter-input').value = '';
+            }
+        });
+
+        // Handle mobile newsletter form
+        document.querySelector('.mobile-newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.mobile-newsletter-input').value;
+            if (email) {
+                alert('登録ありがとうございます！');
+                this.querySelector('.mobile-newsletter-input').value = '';
+            }
+        });
+
+        // Handle main newsletter subscribe form
+        document.querySelector('.newsletter-subscribe-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.newsletter-subscribe-input').value;
+            if (email) {
+                alert('登録ありがとうございます！最新情報をお届けします。');
+                this.querySelector('.newsletter-subscribe-input').value = '';
+            }
+        });
+    </script>
+</body>
+</html>
