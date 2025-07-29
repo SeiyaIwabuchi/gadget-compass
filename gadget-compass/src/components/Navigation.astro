@@ -1,0 +1,116 @@
+---
+// Navigation Bar
+---
+<nav class="nav">
+    <div class="container">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-emoji">🏠</span>
+                        ホーム
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">📱</span>
+                        スマートフォン
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">💻</span>
+                        PC・ノート
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">🎧</span>
+                        オーディオ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">📷</span>
+                        カメラ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">⌚</span>
+                        ウェアラブル
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">🏠</span>
+                        スマートホーム
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">🎮</span>
+                        ゲーミング
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-emoji">🔧</span>
+                        テック考察
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <style>
+        @import "../styles/variables.css";
+        .nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .nav-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 1px;
+        }
+        .nav-list::-webkit-scrollbar {
+            display: none;
+        }
+        .nav-item {
+            position: relative;
+            flex-shrink: 0;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-blue);
+            background: var(--light-blue);
+            border-bottom-color: var(--secondary-blue);
+        }
+        .nav-emoji {
+            font-size: 1rem;
+        }
+    </style>
+</nav>

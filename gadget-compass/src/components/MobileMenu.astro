@@ -1,0 +1,657 @@
+---
+
+---
+
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-close" onclick="toggleMobileMenu()">✕</div>
+
+    <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="記事を検索..." />
+    </div>
+
+    <!-- Mobile Sidebar Content -->
+    <div class="mobile-sidebar">
+        <!-- Profile Widget -->
+        <div class="mobile-widget mobile-profile-widget">
+            <h3 class="mobile-profile-header">👤 プロフィール</h3>
+            <div class="mobile-profile-content">
+                <div class="mobile-profile-info">
+                    <div class="mobile-profile-avatar">🧭</div>
+                    <div class="mobile-profile-name">テックナビゲーター</div>
+                    <div class="mobile-profile-title">
+                        ガジェット・テクノロジー専門ライター
+                    </div>
+                    <div class="mobile-profile-bio">
+                        最新ガジェットから技術解説まで、わかりやすく深掘りしてお届けします。
+                    </div>
+                </div>
+
+                <div class="mobile-profile-stats">
+                    <div class="mobile-profile-stat">
+                        <div class="mobile-profile-stat-number">156</div>
+                        <div class="mobile-profile-stat-label">記事</div>
+                    </div>
+                    <div class="mobile-profile-stat">
+                        <div class="mobile-profile-stat-number">2.4K</div>
+                        <div class="mobile-profile-stat-label">フォロワー</div>
+                    </div>
+                    <div class="mobile-profile-stat">
+                        <div class="mobile-profile-stat-number">89</div>
+                        <div class="mobile-profile-stat-label">レビュー</div>
+                    </div>
+                </div>
+
+                <div class="mobile-profile-links">
+                    <a href="#" class="profile-link twitter" title="Twitter"
+                        >𝕏</a
+                    >
+                    <a href="#" class="profile-link github" title="GitHub">⚡</a
+                    >
+                    <a href="#" class="profile-link youtube" title="YouTube"
+                        >📺</a
+                    >
+                    <a href="#" class="profile-link email" title="Email">📧</a>
+                </div>
+
+                <div class="mobile-profile-specialties">
+                    <div class="mobile-profile-specialty-title">専門分野</div>
+                    <div class="mobile-profile-tags">
+                        <span class="mobile-profile-tag">スマートフォン</span>
+                        <span class="mobile-profile-tag">PC・ガジェット</span>
+                        <span class="mobile-profile-tag">オーディオ</span>
+                        <span class="mobile-profile-tag">カメラ</span>
+                        <span class="mobile-profile-tag">AI・IoT</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Widget -->
+        <div class="mobile-widget">
+            <h3 class="mobile-widget-title">📁 カテゴリー</h3>
+            <div class="mobile-widget-content">
+                <ul class="mobile-category-list">
+                    <li>
+                        <a href="#" class="mobile-link">スマートフォン (24)</a>
+                    </li>
+                    <li><a href="#" class="mobile-link">PC・ノート (18)</a></li>
+                    <li><a href="#" class="mobile-link">オーディオ (15)</a></li>
+                    <li><a href="#" class="mobile-link">カメラ (12)</a></li>
+                    <li>
+                        <a href="#" class="mobile-link">ウェアラブル (9)</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-link">スマートホーム (7)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Popular Articles Widget -->
+        <div class="mobile-widget">
+            <h3 class="mobile-widget-title">🔥 人気の記事</h3>
+            <div class="mobile-widget-content">
+                <ul class="mobile-popular-list">
+                    <li>
+                        <a href="#" class="mobile-link"
+                            >iPhone 15 Pro徹底レビュー</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-link"
+                            >MacBook Air M2の実力検証</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-link"
+                            >AirPods Pro第3世代登場</a
+                        >
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-link">Sony α7R V完全ガイド</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-link"
+                            >Apple Watch Series 9新機能</a
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tag Cloud Widget -->
+        <div class="mobile-widget">
+            <h3 class="mobile-widget-title">🏷️ タグクラウド</h3>
+            <div class="mobile-widget-content">
+                <div class="mobile-tag-cloud">
+                    <span class="tag">レビュー</span>
+                    <span class="tag">新製品</span>
+                    <span class="tag">比較</span>
+                    <span class="tag">おすすめ</span>
+                    <span class="tag">iPhone</span>
+                    <span class="tag">Android</span>
+                    <span class="tag">MacBook</span>
+                    <span class="tag">Windows</span>
+                    <span class="tag">カメラ</span>
+                    <span class="tag">音質</span>
+                    <span class="tag">バッテリー</span>
+                    <span class="tag">コスパ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newsletter Widget -->
+        <div class="mobile-widget mobile-newsletter">
+            <h3 class="mobile-newsletter-title">📬 最新情報をお届け</h3>
+            <div class="mobile-newsletter-content">
+                <p class="mobile-newsletter-text">
+                    新記事の通知やX更新情報をメールでお届けします
+                </p>
+                <form class="mobile-newsletter-form">
+                    <input
+                        type="email"
+                        class="mobile-newsletter-input"
+                        placeholder="メールアドレス"
+                    />
+                    <button type="submit" class="mobile-newsletter-btn"
+                        >登録</button
+                    >
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        /* Mobile Profile Widget */
+        .mobile-profile-widget {
+            background: var(--bg-white);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-profile-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-profile-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-profile-info {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        }
+
+        .mobile-profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .mobile-profile-name {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-title {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-bio {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .mobile-profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-profile-stat {
+            text-align: center;
+        }
+
+        .mobile-profile-stat-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .mobile-profile-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .mobile-profile-links {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .mobile-profile-links .profile-link {
+            width: 35px;
+            height: 35px;
+            font-size: 0.875rem;
+        }
+
+        .profile-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-link:hover {
+            transform: translateY(-2px) scale(1.1);
+        }
+
+        .profile-link.twitter {
+            background: #1da1f2;
+        }
+
+        .profile-link.github {
+            background: #333;
+        }
+
+        .profile-link.youtube {
+            background: #ff0000;
+        }
+
+        .profile-link.email {
+            background: var(--accent-orange);
+        }
+
+        .mobile-profile-specialties {
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
+        }
+
+        .mobile-profile-specialty-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .mobile-profile-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .mobile-profile-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.2rem 0.4rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        /* Mobile Menu - Hidden by default */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100vh;
+            background: var(--bg-white);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            z-index: 10;
+        }
+
+        .mobile-sidebar {
+            margin-top: 1rem;
+        }
+
+        .mobile-menu .search-container {
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-widget {
+            margin-bottom: 2rem;
+            border-bottom: none;
+            background: var(--bg-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .mobile-widget:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-widget-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-widget-title {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-category-list,
+        .mobile-popular-list {
+            list-style: none;
+        }
+
+        .mobile-category-list li,
+        .mobile-popular-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .mobile-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .mobile-link:hover {
+            color: var(--secondary-blue);
+        }
+
+        .mobile-tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .mobile-tag-cloud .tag {
+            font-size: 0.8rem;
+        }
+
+        .mobile-newsletter {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            border-bottom: none !important;
+            overflow: hidden;
+        }
+
+        .mobile-newsletter-title {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        .mobile-newsletter-content {
+            padding: 1.5rem;
+        }
+
+        .mobile-newsletter-text {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .mobile-newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-newsletter-input {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+
+        .mobile-newsletter-btn {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-newsletter-btn:hover {
+            background: #ea580c;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            background: var(--bg-gray);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            background: var(--bg-white);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        .tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+                animation: slideInRight 0.3s ease;
+            }
+            .mobile-menu.closing {
+                display: block;
+                animation: slideOutRight 0.3s ease;
+            }
+            .mobile-menu .search-input {
+                width: 100%;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .category-nav {
+                gap: 1rem;
+            }
+            /* Featured article responsive */
+            .featured-article-card {
+                grid-template-columns: 1fr;
+            }
+            .featured-article-image {
+                min-height: 200px;
+            }
+            .featured-article-content {
+                padding: 1.5rem;
+            }
+            .featured-article-title {
+                font-size: 1.25rem;
+            }
+            /* Ranking responsive */
+            .ranking-item {
+                flex-direction: column;
+            }
+            .ranking-image {
+                width: 100%;
+                height: 100px;
+            }
+            .ranking-content {
+                padding: 1rem;
+            }
+            .ranking-title {
+                font-size: 0.9rem;
+            }
+            .ranking-excerpt {
+                font-size: 0.8rem;
+            }
+            .ranking-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .section-header {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            .section-title {
+                font-size: 1.25rem;
+            }
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .article-stats {
+                font-size: 0.75rem;
+            }
+            .hero-title {
+                font-size: 1.5rem;
+            }
+            .hero-subtitle {
+                font-size: 0.875rem;
+            }
+            .cta-button {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.75rem;
+            }
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                }
+                to {
+                    transform: translateX(0);
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                }
+                to {
+                    transform: translateX(100%);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+    </style>
+</div>

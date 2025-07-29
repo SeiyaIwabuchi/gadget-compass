@@ -1,9 +1,16 @@
----
 
+---
+import Header from "../components/Header.astro";
+import Navigation from "../components/Navigation.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Hero from "../components/Hero.astro";
+import MobileMenu from "../components/MobileMenu.astro";
+import "../styles/variables.css";
 ---
 
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,48 +24,6 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-blue: #1e40af;
-            --secondary-blue: #3b82f6;
-            --light-blue: #dbeafe;
-            --accent-orange: #f97316;
-            --bg-white: #ffffff;
-            --bg-gray: #f8fafc;
-            --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-light: #94a3b8;
-            --border: #e2e8f0;
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --gradient: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-        }
-
-        body {
-            font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-primary);
-            line-height: 1.6;
-            background: var(--bg-gray);
-            font-size: 16px;
-        }
-
-        /* Header */
-        .header {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-        }
 
         /* Progress Bar */
         .progress-bar {
@@ -70,292 +35,6 @@
             background: linear-gradient(90deg, var(--accent-orange), var(--secondary-blue));
             z-index: 1001;
             transition: width 0.1s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .compass-logo {
-            width: 48px;
-            height: 48px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            position: relative;
-            transition: transform 0.1s ease-out;
-        }
-
-        .compass-logo:hover {
-            transform: rotate(45deg);
-        }
-
-        .compass-logo::before {
-            content: '';
-            position: absolute;
-            width: 2px;
-            height: 20px;
-            background: var(--accent-orange);
-            border-radius: 1px;
-            transform: translateY(-2px);
-        }
-
-        .site-info h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .site-tagline {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        .search-input {
-            width: 300px;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border: 2px solid var(--border);
-            border-radius: 25px;
-            background: var(--bg-gray);
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--secondary-blue);
-            background: var(--bg-white);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: var(--text-primary);
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* Navigation */
-        .nav {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
-            position: relative;
-        }
-
-        .nav-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-list {
-            display: flex;
-            list-style: none;
-            gap: 0;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding-bottom: 1px;
-        }
-
-        .nav-list::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-item {
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.5rem 0.75rem;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.75rem;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-            white-space: nowrap;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--primary-blue);
-            background: var(--light-blue);
-            border-bottom-color: var(--secondary-blue);
-        }
-
-        .nav-emoji {
-            font-size: 1rem;
-        }
-
-        /* Breadcrumb */
-        .breadcrumb {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
-            padding: 0.75rem 0;
-            font-size: 0.875rem;
-        }
-
-        .breadcrumb-list {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .breadcrumb-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .breadcrumb-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .breadcrumb-link:hover {
-            color: var(--secondary-blue);
-        }
-
-        .breadcrumb-separator {
-            color: var(--text-light);
-        }
-
-        .breadcrumb-current {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* Hero Section - Compact */
-        .hero {
-            background: var(--gradient);
-            color: white;
-            padding: 2rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
-        }
-
-        .hero-content {
-            position: relative;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.6s forwards;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--accent-orange);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.9s forwards;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Fade-in animation for cards */
@@ -1652,121 +1331,89 @@
 
         /* Mobile Styles */
         @media (max-width: 768px) {
-            .header-actions .search-container {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
             .main-container {
                 grid-template-columns: 1fr;
             }
-
             .sidebar {
                 display: none;
             }
-
             .mobile-menu.active {
                 display: block;
                 animation: slideInRight 0.3s ease;
             }
-
             .mobile-menu.closing {
                 display: block;
                 animation: slideOutRight 0.3s ease;
             }
-
             .mobile-menu .search-input {
                 width: 100%;
             }
-
             .newsletter-form {
                 flex-direction: column;
             }
-
             .category-nav {
                 gap: 1rem;
             }
-
             /* Featured article responsive */
             .featured-article-card {
                 grid-template-columns: 1fr;
             }
-
             .featured-article-image {
                 min-height: 200px;
             }
-
             .featured-article-content {
                 padding: 1.5rem;
             }
-
             .featured-article-title {
                 font-size: 1.25rem;
             }
-
             /* Ranking responsive */
             .ranking-item {
                 flex-direction: column;
             }
-
             .ranking-image {
                 width: 100%;
                 height: 100px;
             }
-
             .ranking-content {
                 padding: 1rem;
             }
-
             .ranking-title {
                 font-size: 0.9rem;
             }
-
             .ranking-excerpt {
                 font-size: 0.8rem;
             }
-
             .ranking-meta {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.5rem;
             }
-
             .section-header {
                 padding: 1rem;
                 margin-bottom: 1rem;
             }
-
             .section-title {
                 font-size: 1.25rem;
             }
-
             .article-meta {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 0.5rem;
             }
-
             .article-stats {
                 font-size: 0.75rem;
             }
-
             .hero-title {
                 font-size: 1.5rem;
             }
-
             .hero-subtitle {
                 font-size: 0.875rem;
             }
-
             .cta-button {
                 padding: 0.625rem 1.25rem;
                 font-size: 0.75rem;
             }
-
             @keyframes slideInRight {
                 from {
                     transform: translateX(100%);
@@ -1775,7 +1422,6 @@
                     transform: translateX(0);
                 }
             }
-
             @keyframes slideOutRight {
                 from {
                     transform: translateX(0);
@@ -1784,7 +1430,6 @@
                     transform: translateX(100%);
                 }
             }
-
             @keyframes fadeInUp {
                 from {
                     opacity: 0;
@@ -1802,246 +1447,11 @@
     <!-- Progress Bar -->
     <div class="progress-bar" id="progressBar"></div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="compass-logo">🧭</div>
-                    <div class="site-info">
-                        <h1>ガジェットコンパス</h1>
-                        <div class="site-tagline">ガジェット探求の旅に終わりはない</div>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <div class="search-container">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" class="search-input" placeholder="記事を検索...">
-                    </div>
-                    <div class="hamburger" onclick="toggleMobileMenu()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="container">
-            <div class="nav-container">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link active">
-                            <span class="nav-emoji">🏠</span>
-                            ホーム
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">📱</span>
-                            スマートフォン
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">💻</span>
-                            PC・ノート
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">🎧</span>
-                            オーディオ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">📷</span>
-                            カメラ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">⌚</span>
-                            ウェアラブル
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">🏠</span>
-                            スマートホーム
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">🎮</span>
-                            ゲーミング
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <span class="nav-emoji">🔧</span>
-                            テック考察
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb">
-        <div class="container">
-            <ol class="breadcrumb-list">
-                <li class="breadcrumb-item">
-                    <a href="/" class="breadcrumb-link">🏠 ホーム</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <span class="breadcrumb-separator">></span>
-                    <span class="breadcrumb-current">トップページ</span>
-                </li>
-            </ol>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">探求の旅へようこそ</h1>
-                <p class="hero-subtitle">最新ガジェットから技術解説まで、ITの世界を深く掘り下げます</p>
-                <a href="#content" class="cta-button">
-                    探求を始める
-                    <span>→</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-close" onclick="toggleMobileMenu()">✕</div>
-        
-        <div class="search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" placeholder="記事を検索...">
-        </div>
-
-        <!-- Mobile Sidebar Content -->
-        <div class="mobile-sidebar">
-            <!-- Profile Widget -->
-            <div class="mobile-widget mobile-profile-widget">
-                <h3 class="mobile-profile-header">👤 プロフィール</h3>
-                <div class="mobile-profile-content">
-                    <div class="mobile-profile-info">
-                        <div class="mobile-profile-avatar">🧭</div>
-                        <div class="mobile-profile-name">テックナビゲーター</div>
-                        <div class="mobile-profile-title">ガジェット・テクノロジー専門ライター</div>
-                        <div class="mobile-profile-bio">最新ガジェットから技術解説まで、わかりやすく深掘りしてお届けします。</div>
-                    </div>
-                    
-                    <div class="mobile-profile-stats">
-                        <div class="mobile-profile-stat">
-                            <div class="mobile-profile-stat-number">156</div>
-                            <div class="mobile-profile-stat-label">記事</div>
-                        </div>
-                        <div class="mobile-profile-stat">
-                            <div class="mobile-profile-stat-number">2.4K</div>
-                            <div class="mobile-profile-stat-label">フォロワー</div>
-                        </div>
-                        <div class="mobile-profile-stat">
-                            <div class="mobile-profile-stat-number">89</div>
-                            <div class="mobile-profile-stat-label">レビュー</div>
-                        </div>
-                    </div>
-                    
-                    <div class="mobile-profile-links">
-                        <a href="#" class="profile-link twitter" title="Twitter">𝕏</a>
-                        <a href="#" class="profile-link github" title="GitHub">⚡</a>
-                        <a href="#" class="profile-link youtube" title="YouTube">📺</a>
-                        <a href="#" class="profile-link email" title="Email">📧</a>
-                    </div>
-                    
-                    <div class="mobile-profile-specialties">
-                        <div class="mobile-profile-specialty-title">専門分野</div>
-                        <div class="mobile-profile-tags">
-                            <span class="mobile-profile-tag">スマートフォン</span>
-                            <span class="mobile-profile-tag">PC・ガジェット</span>
-                            <span class="mobile-profile-tag">オーディオ</span>
-                            <span class="mobile-profile-tag">カメラ</span>
-                            <span class="mobile-profile-tag">AI・IoT</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories Widget -->
-            <div class="mobile-widget">
-                <h3 class="mobile-widget-title">📁 カテゴリー</h3>
-                <div class="mobile-widget-content">
-                    <ul class="mobile-category-list">
-                        <li><a href="#" class="mobile-link">スマートフォン (24)</a></li>
-                        <li><a href="#" class="mobile-link">PC・ノート (18)</a></li>
-                        <li><a href="#" class="mobile-link">オーディオ (15)</a></li>
-                        <li><a href="#" class="mobile-link">カメラ (12)</a></li>
-                        <li><a href="#" class="mobile-link">ウェアラブル (9)</a></li>
-                        <li><a href="#" class="mobile-link">スマートホーム (7)</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Popular Articles Widget -->
-            <div class="mobile-widget">
-                <h3 class="mobile-widget-title">🔥 人気の記事</h3>
-                <div class="mobile-widget-content">
-                    <ul class="mobile-popular-list">
-                        <li><a href="#" class="mobile-link">iPhone 15 Pro徹底レビュー</a></li>
-                        <li><a href="#" class="mobile-link">MacBook Air M2の実力検証</a></li>
-                        <li><a href="#" class="mobile-link">AirPods Pro第3世代登場</a></li>
-                        <li><a href="#" class="mobile-link">Sony α7R V完全ガイド</a></li>
-                        <li><a href="#" class="mobile-link">Apple Watch Series 9新機能</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Tag Cloud Widget -->
-            <div class="mobile-widget">
-                <h3 class="mobile-widget-title">🏷️ タグクラウド</h3>
-                <div class="mobile-widget-content">
-                    <div class="mobile-tag-cloud">
-                        <span class="tag">レビュー</span>
-                        <span class="tag">新製品</span>
-                        <span class="tag">比較</span>
-                        <span class="tag">おすすめ</span>
-                        <span class="tag">iPhone</span>
-                        <span class="tag">Android</span>
-                        <span class="tag">MacBook</span>
-                        <span class="tag">Windows</span>
-                        <span class="tag">カメラ</span>
-                        <span class="tag">音質</span>
-                        <span class="tag">バッテリー</span>
-                        <span class="tag">コスパ</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Newsletter Widget -->
-            <div class="mobile-widget mobile-newsletter">
-                <h3 class="mobile-newsletter-title">📬 最新情報をお届け</h3>
-                <div class="mobile-newsletter-content">
-                    <p class="mobile-newsletter-text">新記事の通知やX更新情報をメールでお届けします</p>
-                    <form class="mobile-newsletter-form">
-                        <input type="email" class="mobile-newsletter-input" placeholder="メールアドレス">
-                        <button type="submit" class="mobile-newsletter-btn">登録</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <Header />
+    <Navigation />
+    <Breadcrumb />
+    <Hero />
+    <MobileMenu />
     <!-- Main Container -->
     <div class="container" id="content">
         <!-- Trending Section -->
