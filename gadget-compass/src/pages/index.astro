@@ -2572,14 +2572,14 @@
         let lastScrollTop = 0;
         let compassRotation = 0;
 
-        function updateCompassRotation() {
+        function updateCompassRotation(): void {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollDelta = scrollTop - lastScrollTop;
             
             // Rotate compass based on scroll direction and speed
             compassRotation += scrollDelta * 0.5; // Adjust multiplier for sensitivity
             
-            const compass = document.querySelector('.compass-logo');
+            const compass = document.querySelector('.compass-logo') as HTMLElement;
             if (compass) {
                 compass.style.transform = `rotate(${compassRotation}deg)`;
             }
@@ -2589,7 +2589,7 @@
 
         // Throttle scroll events for better performance
         let ticking = false;
-        function onScroll() {
+        function onScroll(): void {
             if (!ticking) {
                 requestAnimationFrame(updateCompassRotation);
                 ticking = true;
@@ -2600,18 +2600,23 @@
         window.addEventListener('scroll', onScroll);
 
         // Progress Bar
-        function updateProgressBar() {
+        function updateProgressBar(): void {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+            const progressBar = document.getElementById('progressBar') as HTMLElement;
+            if (progressBar) {
+                progressBar.style.width = scrolled + '%';
+            }
         }
 
         window.addEventListener('scroll', updateProgressBar);
 
         // Favorite functionality
-        function toggleFavorite(button) {
+        function toggleFavorite(button: HTMLElement): void {
             const articleId = button.getAttribute('data-article');
+            if (!articleId) return;
+            
             const isActive = button.classList.contains('active');
             
             if (isActive) {
@@ -2625,25 +2630,25 @@
             }
         }
 
-        function addFavorite(articleId) {
-            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        function addFavorite(articleId: string): void {
+            let favorites: string[] = JSON.parse(localStorage.getItem('favorites') || '[]');
             if (!favorites.includes(articleId)) {
                 favorites.push(articleId);
                 localStorage.setItem('favorites', JSON.stringify(favorites));
             }
         }
 
-        function removeFavorite(articleId) {
-            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        function removeFavorite(articleId: string): void {
+            let favorites: string[] = JSON.parse(localStorage.getItem('favorites') || '[]');
             favorites = favorites.filter(id => id !== articleId);
             localStorage.setItem('favorites', JSON.stringify(favorites));
         }
 
         // Load favorites on page load
-        function loadFavorites() {
-            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        function loadFavorites(): void {
+            const favorites: string[] = JSON.parse(localStorage.getItem('favorites') || '[]');
             favorites.forEach(articleId => {
-                const button = document.querySelector(`[data-article="${articleId}"]`);
+                const button = document.querySelector(`[data-article="${articleId}"]`) as HTMLElement;
                 if (button) {
                     button.classList.add('active');
                     button.innerHTML = '♥';
@@ -2655,10 +2660,10 @@
         document.addEventListener('DOMContentLoaded', loadFavorites);
 
         // Filter and Sort functionality
-        function setupFilterAndSort() {
-            const categoryFilter = document.getElementById('categoryFilter');
-            const tagFilter = document.getElementById('tagFilter');
-            const sortSelect = document.getElementById('sortSelect');
+        function setupFilterAndSort(): void {
+            const categoryFilter = document.getElementById('categoryFilter') as HTMLSelectElement;
+            const tagFilter = document.getElementById('tagFilter') as HTMLSelectElement;
+            const sortSelect = document.getElementById('sortSelect') as HTMLSelectElement;
 
             if (categoryFilter) {
                 categoryFilter.addEventListener('change', filterArticles);
@@ -2671,22 +2676,22 @@
             }
         }
 
-        function filterArticles() {
+        function filterArticles(): void {
             // Filter functionality would be implemented here
             console.log('Filtering articles...');
         }
 
-        function sortArticles() {
+        function sortArticles(): void {
             // Sort functionality would be implemented here
             console.log('Sorting articles...');
         }
 
         // Animated counter for trending stats
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
+        function animateCounters(): void {
+            const counters = document.querySelectorAll('.stat-number') as NodeListOf<HTMLElement>;
             
             counters.forEach(counter => {
-                const target = parseInt(counter.textContent.replace(/,/g, ''));
+                const target = parseInt(counter.textContent?.replace(/,/g, '') || '0');
                 const duration = 2000;
                 const step = target / (duration / 16);
                 let current = 0;
@@ -2710,9 +2715,9 @@
         });
 
         // PWA Installation
-        let deferredPrompt;
+        let deferredPrompt: any;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
+        window.addEventListener('beforeinstallprompt', (e: Event) => {
             e.preventDefault();
             deferredPrompt = e;
             
@@ -2734,8 +2739,8 @@
         }
 
         // Intersection Observer for fade-in animations
-        function setupFadeInAnimations() {
-            const observerOptions = {
+        function setupFadeInAnimations(): void {
+            const observerOptions: IntersectionObserverInit = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
             };
@@ -2759,19 +2764,23 @@
         document.addEventListener('DOMContentLoaded', setupFadeInAnimations);
 
         // Smooth scroll for CTA button
-        document.querySelector('.cta-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = document.querySelector('#content');
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
+        const ctaButton = document.querySelector('.cta-button') as HTMLElement;
+        if (ctaButton) {
+            ctaButton.addEventListener('click', (e: Event) => {
+                e.preventDefault();
+                const target = document.querySelector('#content') as HTMLElement;
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        }
 
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
+        function toggleMobileMenu(): void {
+            const mobileMenu = document.getElementById('mobileMenu') as HTMLElement;
+            if (!mobileMenu) return;
             
             if (mobileMenu.classList.contains('active')) {
                 // Start closing animation
@@ -2790,12 +2799,18 @@
             }
         }
 
+        // Make toggleMobileMenu globally available
+        (window as any).toggleMobileMenu = toggleMobileMenu;
+
         // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const hamburger = document.querySelector('.hamburger');
+        document.addEventListener('click', function(event: Event) {
+            const mobileMenu = document.getElementById('mobileMenu') as HTMLElement;
+            const hamburger = document.querySelector('.hamburger') as HTMLElement;
+            const target = event.target as HTMLElement;
             
-            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target) && mobileMenu.classList.contains('active')) {
+            if (mobileMenu && hamburger && target && 
+                !mobileMenu.contains(target) && !hamburger.contains(target) && 
+                mobileMenu.classList.contains('active')) {
                 // Use the same animated closing logic
                 mobileMenu.classList.remove('active');
                 mobileMenu.classList.add('closing');
@@ -2809,41 +2824,50 @@
 
         // Handle tag clicks
         document.querySelectorAll('.tag').forEach(tag => {
-            tag.addEventListener('click', function() {
+            tag.addEventListener('click', function(this: HTMLElement) {
                 console.log('Tag clicked:', this.textContent);
                 // Add filter functionality here
             });
         });
 
         // Handle newsletter form (desktop)
-        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('.newsletter-input').value;
-            if (email) {
-                alert('登録ありがとうございます！');
-                this.querySelector('.newsletter-input').value = '';
-            }
-        });
+        const newsletterForm = document.querySelector('.newsletter-form') as HTMLFormElement;
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e: Event) {
+                e.preventDefault();
+                const emailInput = this.querySelector('.newsletter-input') as HTMLInputElement;
+                if (emailInput && emailInput.value) {
+                    alert('登録ありがとうございます！');
+                    emailInput.value = '';
+                }
+            });
+        }
 
         // Handle mobile newsletter form
-        document.querySelector('.mobile-newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('.mobile-newsletter-input').value;
-            if (email) {
-                alert('登録ありがとうございます！');
-                this.querySelector('.mobile-newsletter-input').value = '';
-            }
-        });
+        const mobileNewsletterForm = document.querySelector('.mobile-newsletter-form') as HTMLFormElement;
+        if (mobileNewsletterForm) {
+            mobileNewsletterForm.addEventListener('submit', function(e: Event) {
+                e.preventDefault();
+                const emailInput = this.querySelector('.mobile-newsletter-input') as HTMLInputElement;
+                if (emailInput && emailInput.value) {
+                    alert('登録ありがとうございます！');
+                    emailInput.value = '';
+                }
+            });
+        }
 
         // Handle main newsletter subscribe form
-        document.querySelector('.newsletter-subscribe-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('.newsletter-subscribe-input').value;
-            if (email) {
-                alert('登録ありがとうございます！最新情報をお届けします。');
-                this.querySelector('.newsletter-subscribe-input').value = '';
-            }
-        });
+        const newsletterSubscribeForm = document.querySelector('.newsletter-subscribe-form') as HTMLFormElement;
+        if (newsletterSubscribeForm) {
+            newsletterSubscribeForm.addEventListener('submit', function(e: Event) {
+                e.preventDefault();
+                const emailInput = this.querySelector('.newsletter-subscribe-input') as HTMLInputElement;
+                if (emailInput && emailInput.value) {
+                    alert('登録ありがとうございます！最新情報をお届けします。');
+                    emailInput.value = '';
+                }
+            });
+        }
     </script>
 </body>
 </html>
