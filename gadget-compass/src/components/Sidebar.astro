@@ -1,6 +1,7 @@
 ---
 // Sidebar.astro
 ---
+
 <aside class="sidebar">
     <!-- Profile Widget -->
     <div class="profile-widget fade-in-card">
@@ -8,7 +9,9 @@
             <div class="profile-avatar">🧭</div>
             <h3 class="profile-name">テックナビゲーター</h3>
             <p class="profile-title">ガジェット・テクノロジー専門ライター</p>
-            <p class="profile-bio">最新テクノロジーの海を航海し、皆さんに価値ある情報をお届けします</p>
+            <p class="profile-bio">
+                最新テクノロジーの海を航海し、皆さんに価値ある情報をお届けします
+            </p>
         </div>
         <div class="profile-content">
             <div class="profile-stats">
@@ -77,10 +80,13 @@
         <div class="widget-content">
             <ul class="popular-list">
                 <li class="popular-item">
-                    <a href="#" class="popular-link">iPhone 15 Pro徹底レビュー</a>
+                    <a href="#" class="popular-link"
+                        >iPhone 15 Pro徹底レビュー</a
+                    >
                 </li>
                 <li class="popular-item">
-                    <a href="#" class="popular-link">MacBook Air M2の実力検証</a>
+                    <a href="#" class="popular-link">MacBook Air M2の実力検証</a
+                    >
                 </li>
                 <li class="popular-item">
                     <a href="#" class="popular-link">AirPods Pro第3世代登場</a>
@@ -89,7 +95,9 @@
                     <a href="#" class="popular-link">Sony α7R V完全ガイド</a>
                 </li>
                 <li class="popular-item">
-                    <a href="#" class="popular-link">Apple Watch Series 9新機能</a>
+                    <a href="#" class="popular-link"
+                        >Apple Watch Series 9新機能</a
+                    >
                 </li>
             </ul>
         </div>
@@ -120,13 +128,38 @@
     <div class="sidebar-widget newsletter fade-in-card">
         <h3 class="widget-title">📬 最新情報をお届け</h3>
         <div class="widget-content">
-            <p class="newsletter-text">新記事の通知やX更新情報をメールでお届けします</p>
+            <p class="newsletter-text">
+                新記事の通知やX更新情報を<br>メールでお届けします
+            </p>
             <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="メールアドレス">
+                <input
+                    type="email"
+                    class="newsletter-input"
+                    placeholder="メールアドレス"
+                />
                 <button type="submit" class="newsletter-btn">登録</button>
             </form>
         </div>
     </div>
+
+    <script>
+        // Handle newsletter form (desktop)
+        const newsletterForm = document.querySelector(
+            ".newsletter-form",
+        ) as HTMLFormElement;
+        if (newsletterForm) {
+            newsletterForm.addEventListener("submit", function (e: Event) {
+                e.preventDefault();
+                const emailInput = this.querySelector(
+                    ".newsletter-input",
+                ) as HTMLInputElement;
+                if (emailInput && emailInput.value) {
+                    alert("登録ありがとうございます！");
+                    emailInput.value = "";
+                }
+            });
+        }
+    </script>
 
     <style>
         .sidebar {
@@ -364,7 +397,7 @@
 
         .newsletter-input {
             flex: 1;
-            padding: 0.75rem;
+            padding: 0rem 0.5rem 0rem 0.5rem;
             border: none;
             border-radius: 6px;
             font-size: 0.875rem;

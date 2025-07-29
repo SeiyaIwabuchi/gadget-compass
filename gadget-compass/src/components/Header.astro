@@ -1,20 +1,29 @@
 ---
 // Header（ロゴ・検索・ハンバーガー）
 ---
+
 <header class="header">
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
     <div class="container">
         <div class="header-content">
             <div class="logo-section">
                 <div class="compass-logo">🧭</div>
                 <div class="site-info">
                     <h1>ガジェットコンパス</h1>
-                    <div class="site-tagline">ガジェット探求の旅に終わりはない</div>
+                    <div class="site-tagline">
+                        ガジェット探求の旅に終わりはない
+                    </div>
                 </div>
             </div>
             <div class="header-actions">
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" class="search-input" placeholder="記事を検索...">
+                    <input
+                        type="text"
+                        class="search-input"
+                        placeholder="記事を検索..."
+                    />
                 </div>
                 <div class="hamburger" onclick="toggleMobileMenu()">
                     <span></span>
@@ -24,9 +33,79 @@
             </div>
         </div>
     </div>
+    <script>
+        // Compass rotation based on scroll
+        let lastScrollTop = 0;
+        let compassRotation = 0;
+
+        function updateCompassRotation(): void {
+            const scrollTop =
+                window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDelta = scrollTop - lastScrollTop;
+
+            // Rotate compass based on scroll direction and speed
+            compassRotation += scrollDelta * 0.5; // Adjust multiplier for sensitivity
+
+            const compass = document.querySelector(
+                ".compass-logo",
+            ) as HTMLElement;
+            if (compass) {
+                compass.style.transform = `rotate(${compassRotation}deg)`;
+            }
+
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scrolling
+        }
+
+        // Throttle scroll events for better performance
+        let ticking = false;
+        function onScroll(): void {
+            if (!ticking) {
+                requestAnimationFrame(updateCompassRotation);
+                ticking = true;
+                setTimeout(() => {
+                    ticking = false;
+                }, 16); // ~60fps
+            }
+        }
+
+        window.addEventListener("scroll", onScroll);
+
+        // Progress Bar
+        function updateProgressBar(): void {
+            const winScroll =
+                document.body.scrollTop || document.documentElement.scrollTop;
+            const height =
+                document.documentElement.scrollHeight -
+                document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById(
+                "progressBar",
+            ) as HTMLElement;
+            if (progressBar) {
+                progressBar.style.width = scrolled + "%";
+            }
+        }
+
+        window.addEventListener("scroll", updateProgressBar);
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap");
         @import "../styles/variables.css";
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(
+                90deg,
+                var(--accent-orange),
+                var(--secondary-blue)
+            );
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
         .header {
             background: var(--bg-white);
             border-bottom: 1px solid var(--border);
@@ -69,7 +148,7 @@
             transform: rotate(45deg);
         }
         .compass-logo::before {
-            content: '';
+            content: "";
             position: absolute;
             width: 2px;
             height: 20px;

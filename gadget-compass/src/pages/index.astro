@@ -30,18 +30,6 @@ import Footer from "../components/Footer.astro";
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
 
-        /* Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-orange), var(--secondary-blue));
-            z-index: 1001;
-            transition: width 0.1s ease;
-        }
-
         /* Main Content */
         .main-container {
             display: grid;
@@ -59,20 +47,17 @@ import Footer from "../components/Footer.astro";
     </style>
 </head>
 <body>
-    <!-- Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
-
     <Header />
     <Navigation />
     <Breadcrumb />
     <Hero />
     <MobileMenu />
     <!-- Main Container -->
-    <div class="container" id="content">
+    <div class="container">
         <!-- Trending Section -->
         <TrendingSection />
 
-        <div class="main-container">
+        <div class="main-container" id="content">
             <!-- Main Content -->
             <MainContent />
 
@@ -91,105 +76,6 @@ import Footer from "../components/Footer.astro";
     <Footer />
 
     <script>
-        // Compass rotation based on scroll
-        let lastScrollTop = 0;
-        let compassRotation = 0;
-
-        function updateCompassRotation(): void {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollDelta = scrollTop - lastScrollTop;
-            
-            // Rotate compass based on scroll direction and speed
-            compassRotation += scrollDelta * 0.5; // Adjust multiplier for sensitivity
-            
-            const compass = document.querySelector('.compass-logo') as HTMLElement;
-            if (compass) {
-                compass.style.transform = `rotate(${compassRotation}deg)`;
-            }
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Prevent negative scrolling
-        }
-
-        // Throttle scroll events for better performance
-        let ticking = false;
-        function onScroll(): void {
-            if (!ticking) {
-                requestAnimationFrame(updateCompassRotation);
-                ticking = true;
-                setTimeout(() => { ticking = false; }, 16); // ~60fps
-            }
-        }
-
-        window.addEventListener('scroll', onScroll);
-
-        // Progress Bar
-        function updateProgressBar(): void {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            const progressBar = document.getElementById('progressBar') as HTMLElement;
-            if (progressBar) {
-                progressBar.style.width = scrolled + '%';
-            }
-        }
-
-        window.addEventListener('scroll', updateProgressBar);
-
-        // Filter and Sort functionality
-        function setupFilterAndSort(): void {
-            const categoryFilter = document.getElementById('categoryFilter') as HTMLSelectElement;
-            const tagFilter = document.getElementById('tagFilter') as HTMLSelectElement;
-            const sortSelect = document.getElementById('sortSelect') as HTMLSelectElement;
-
-            if (categoryFilter) {
-                categoryFilter.addEventListener('change', filterArticles);
-            }
-            if (tagFilter) {
-                tagFilter.addEventListener('change', filterArticles);
-            }
-            if (sortSelect) {
-                sortSelect.addEventListener('change', sortArticles);
-            }
-        }
-
-        function filterArticles(): void {
-            // Filter functionality would be implemented here
-            console.log('Filtering articles...');
-        }
-
-        function sortArticles(): void {
-            // Sort functionality would be implemented here
-            console.log('Sorting articles...');
-        }
-
-        // Animated counter for trending stats
-        function animateCounters(): void {
-            const counters = document.querySelectorAll('.stat-number') as NodeListOf<HTMLElement>;
-            
-            counters.forEach(counter => {
-                const target = parseInt(counter.textContent?.replace(/,/g, '') || '0');
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    counter.textContent = Math.floor(current).toLocaleString();
-                }, 16);
-            });
-        }
-
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFavorites();
-            setupFilterAndSort();
-            animateCounters();
-        });
-
         // PWA Installation
         let deferredPrompt: any;
 
@@ -238,112 +124,6 @@ import Footer from "../components/Footer.astro";
 
         // Initialize fade-in animations when DOM is loaded
         document.addEventListener('DOMContentLoaded', setupFadeInAnimations);
-
-        // Smooth scroll for CTA button
-        const ctaButton = document.querySelector('.cta-button') as HTMLElement;
-        if (ctaButton) {
-            ctaButton.addEventListener('click', (e: Event) => {
-                e.preventDefault();
-                const target = document.querySelector('#content') as HTMLElement;
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        }
-
-        function toggleMobileMenu(): void {
-            const mobileMenu = document.getElementById('mobileMenu') as HTMLElement;
-            if (!mobileMenu) return;
-            
-            if (mobileMenu.classList.contains('active')) {
-                // Start closing animation
-                mobileMenu.classList.remove('active');
-                mobileMenu.classList.add('closing');
-                
-                // Hide menu after animation completes
-                setTimeout(() => {
-                    mobileMenu.classList.remove('closing');
-                    mobileMenu.style.display = 'none';
-                }, 300); // Match animation duration
-            } else {
-                // Show and start opening animation
-                mobileMenu.style.display = 'block';
-                mobileMenu.classList.add('active');
-            }
-        }
-
-        // Make toggleMobileMenu globally available
-        (window as any).toggleMobileMenu = toggleMobileMenu;
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event: Event) {
-            const mobileMenu = document.getElementById('mobileMenu') as HTMLElement;
-            const hamburger = document.querySelector('.hamburger') as HTMLElement;
-            const target = event.target as HTMLElement;
-            
-            if (mobileMenu && hamburger && target && 
-                !mobileMenu.contains(target) && !hamburger.contains(target) && 
-                mobileMenu.classList.contains('active')) {
-                // Use the same animated closing logic
-                mobileMenu.classList.remove('active');
-                mobileMenu.classList.add('closing');
-                
-                setTimeout(() => {
-                    mobileMenu.classList.remove('closing');
-                    mobileMenu.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        // Handle tag clicks
-        document.querySelectorAll('.tag').forEach(tag => {
-            tag.addEventListener('click', function(this: HTMLElement) {
-                console.log('Tag clicked:', this.textContent);
-                // Add filter functionality here
-            });
-        });
-
-        // Handle newsletter form (desktop)
-        const newsletterForm = document.querySelector('.newsletter-form') as HTMLFormElement;
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e: Event) {
-                e.preventDefault();
-                const emailInput = this.querySelector('.newsletter-input') as HTMLInputElement;
-                if (emailInput && emailInput.value) {
-                    alert('登録ありがとうございます！');
-                    emailInput.value = '';
-                }
-            });
-        }
-
-        // Handle mobile newsletter form
-        const mobileNewsletterForm = document.querySelector('.mobile-newsletter-form') as HTMLFormElement;
-        if (mobileNewsletterForm) {
-            mobileNewsletterForm.addEventListener('submit', function(e: Event) {
-                e.preventDefault();
-                const emailInput = this.querySelector('.mobile-newsletter-input') as HTMLInputElement;
-                if (emailInput && emailInput.value) {
-                    alert('登録ありがとうございます！');
-                    emailInput.value = '';
-                }
-            });
-        }
-
-        // Handle main newsletter subscribe form
-        const newsletterSubscribeForm = document.querySelector('.newsletter-subscribe-form') as HTMLFormElement;
-        if (newsletterSubscribeForm) {
-            newsletterSubscribeForm.addEventListener('submit', function(e: Event) {
-                e.preventDefault();
-                const emailInput = this.querySelector('.newsletter-subscribe-input') as HTMLInputElement;
-                if (emailInput && emailInput.value) {
-                    alert('登録ありがとうございます！最新情報をお届けします。');
-                    emailInput.value = '';
-                }
-            });
-        }
     </script>
 </body>
 </html>

@@ -146,7 +146,7 @@
             <h3 class="mobile-newsletter-title">📬 最新情報をお届け</h3>
             <div class="mobile-newsletter-content">
                 <p class="mobile-newsletter-text">
-                    新記事の通知やX更新情報をメールでお届けします
+                    新記事の通知やX更新情報を<br>メールでお届けします
                 </p>
                 <form class="mobile-newsletter-form">
                     <input
@@ -161,6 +161,86 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Handle mobile newsletter form
+        const mobileNewsletterForm = document.querySelector(
+            ".mobile-newsletter-form",
+        ) as HTMLFormElement;
+        if (mobileNewsletterForm) {
+            mobileNewsletterForm.addEventListener(
+                "submit",
+                function (e: Event) {
+                    e.preventDefault();
+                    const emailInput = this.querySelector(
+                        ".mobile-newsletter-input",
+                    ) as HTMLInputElement;
+                    if (emailInput && emailInput.value) {
+                        alert("登録ありがとうございます！");
+                        emailInput.value = "";
+                    }
+                },
+            );
+        }
+    </script>
+
+    <script>
+        function toggleMobileMenu(): void {
+            const mobileMenu = document.getElementById(
+                "mobileMenu",
+            ) as HTMLElement;
+            if (!mobileMenu) return;
+
+            if (mobileMenu.classList.contains("active")) {
+                // Start closing animation
+                mobileMenu.classList.remove("active");
+                mobileMenu.classList.add("closing");
+
+                // Hide menu after animation completes
+                setTimeout(() => {
+                    mobileMenu.classList.remove("closing");
+                    mobileMenu.style.display = "none";
+                }, 300); // Match animation duration
+            } else {
+                // Show and start opening animation
+                mobileMenu.style.display = "block";
+                mobileMenu.classList.add("active");
+            }
+        }
+
+        // Make toggleMobileMenu globally available
+        (window as any).toggleMobileMenu = toggleMobileMenu;
+
+        // Close mobile menu when clicking outside
+        document.addEventListener("click", function (event: Event) {
+            const mobileMenu = document.getElementById(
+                "mobileMenu",
+            ) as HTMLElement;
+            const hamburger = document.querySelector(
+                ".hamburger",
+            ) as HTMLElement;
+            const target = event.target as HTMLElement;
+
+            if (
+                mobileMenu &&
+                hamburger &&
+                target &&
+                !mobileMenu.contains(target) &&
+                !hamburger.contains(target) &&
+                mobileMenu.classList.contains("active")
+            ) {
+                // Use the same animated closing logic
+                mobileMenu.classList.remove("active");
+                mobileMenu.classList.add("closing");
+
+                setTimeout(() => {
+                    mobileMenu.classList.remove("closing");
+                    mobileMenu.style.display = "none";
+                }, 300);
+            }
+        });
+    </script>
+
     <style>
         /* Mobile Profile Widget */
         .mobile-profile-widget {
@@ -525,7 +605,7 @@
             margin: 3px 0;
             transition: 0.3s;
         }
-        
+
         .tag {
             background: rgba(59, 130, 246, 0.1);
             color: var(--secondary-blue);

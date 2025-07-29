@@ -354,6 +354,9 @@
             }
         }
 
+        // Make toggleFavorite globally available
+        (window as any).toggleFavorite = toggleFavorite;
+
         function addFavorite(articleId: string): void {
             let favorites: string[] = JSON.parse(
                 localStorage.getItem("favorites") || "[]",
@@ -420,6 +423,7 @@
         }
         // Initialize everything when DOM is loaded
         document.addEventListener("DOMContentLoaded", () => {
+            loadFavorites();
             setupFilterAndSort();
         });
     </script>

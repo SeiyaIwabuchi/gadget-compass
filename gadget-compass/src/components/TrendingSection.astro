@@ -27,6 +27,37 @@
             </div>
         </div>
     </div>
+    <script>
+        // Animated counter for trending stats
+        function animateCounters(): void {
+            const counters = document.querySelectorAll(
+                ".stat-number",
+            ) as NodeListOf<HTMLElement>;
+
+            counters.forEach((counter) => {
+                const target = parseInt(
+                    counter.textContent?.replace(/,/g, "") || "0",
+                );
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener("DOMContentLoaded", () => {
+            animateCounters();
+        });
+    </script>
     <style>
         .trending-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

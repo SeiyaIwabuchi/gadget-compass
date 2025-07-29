@@ -15,6 +15,24 @@
             </a>
         </div>
     </div>
+    <script>
+        // Smooth scroll for CTA button
+        const ctaButton = document.querySelector(".cta-button") as HTMLElement;
+        if (ctaButton) {
+            ctaButton.addEventListener("click", (e: Event) => {
+                e.preventDefault();
+                const target = document.querySelector(
+                    "#content",
+                ) as HTMLElement;
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                    });
+                }
+            });
+        }
+    </script>
     <style>
         /* Hero Section - Compact */
         .hero {
@@ -59,7 +77,7 @@
             overflow-wrap: break-word;
             word-break: keep-all;
             line-break: strict;
-            word-wrap: break-word;;
+            word-wrap: break-word;
         }
 
         .cta-button {
