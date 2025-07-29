@@ -129,7 +129,7 @@
         <h3 class="widget-title">📬 最新情報をお届け</h3>
         <div class="widget-content">
             <p class="newsletter-text">
-                新記事の通知やX更新情報を<br>メールでお届けします
+                新記事の通知やX更新情報を<br />メールでお届けします
             </p>
             <form class="newsletter-form">
                 <input
@@ -432,6 +432,35 @@
         .tag:hover {
             background: rgba(59, 130, 246, 0.2);
         }
+        
+        /* Fade-in animation for cards */
+        .fade-in-card {
+            opacity: 0;
+            transform: translateY(50px);
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease;
+        }
+        .fade-in-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-card:nth-child(1) {
+            transition-delay: 0s;
+        }
+        .fade-in-card:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+        .fade-in-card:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+        .fade-in-card:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+        .fade-in-card:nth-child(5) {
+            transition-delay: 0.4s;
+        }
+
         /* Mobile Styles */
         @media (max-width: 768px) {
             .sidebar {
