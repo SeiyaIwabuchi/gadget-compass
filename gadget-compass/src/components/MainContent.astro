@@ -336,33 +336,90 @@
         </div>
     </section>
     <script>
+        // Favorite functionality
+        function toggleFavorite(button: HTMLElement): void {
+            const articleId = button.getAttribute("data-article");
+            if (!articleId) return;
+
+            const isActive = button.classList.contains("active");
+
+            if (isActive) {
+                button.classList.remove("active");
+                button.innerHTML = "♡";
+                removeFavorite(articleId);
+            } else {
+                button.classList.add("active");
+                button.innerHTML = "♥";
+                addFavorite(articleId);
+            }
+        }
+
+        function addFavorite(articleId: string): void {
+            let favorites: string[] = JSON.parse(
+                localStorage.getItem("favorites") || "[]",
+            );
+            if (!favorites.includes(articleId)) {
+                favorites.push(articleId);
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+            }
+        }
+
+        function removeFavorite(articleId: string): void {
+            let favorites: string[] = JSON.parse(
+                localStorage.getItem("favorites") || "[]",
+            );
+            favorites = favorites.filter((id) => id !== articleId);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+        }
+
+        // Load favorites on page load
+        function loadFavorites(): void {
+            const favorites: string[] = JSON.parse(
+                localStorage.getItem("favorites") || "[]",
+            );
+            favorites.forEach((articleId) => {
+                const button = document.querySelector(
+                    `[data-article="${articleId}"]`,
+                ) as HTMLElement;
+                if (button) {
+                    button.classList.add("active");
+                    button.innerHTML = "♥";
+                }
+            });
+        }
         // Filter and Sort functionality
         function setupFilterAndSort(): void {
-            const categoryFilter = document.getElementById('categoryFilter') as HTMLSelectElement;
-            const tagFilter = document.getElementById('tagFilter') as HTMLSelectElement;
-            const sortSelect = document.getElementById('sortSelect') as HTMLSelectElement;
+            const categoryFilter = document.getElementById(
+                "categoryFilter",
+            ) as HTMLSelectElement;
+            const tagFilter = document.getElementById(
+                "tagFilter",
+            ) as HTMLSelectElement;
+            const sortSelect = document.getElementById(
+                "sortSelect",
+            ) as HTMLSelectElement;
 
             if (categoryFilter) {
-                categoryFilter.addEventListener('change', filterArticles);
+                categoryFilter.addEventListener("change", filterArticles);
             }
             if (tagFilter) {
-                tagFilter.addEventListener('change', filterArticles);
+                tagFilter.addEventListener("change", filterArticles);
             }
             if (sortSelect) {
-                sortSelect.addEventListener('change', sortArticles);
+                sortSelect.addEventListener("change", sortArticles);
             }
         }
         function filterArticles(): void {
             // Filter functionality would be implemented here
-            console.log('Filtering articles...');
+            console.log("Filtering articles...");
         }
 
         function sortArticles(): void {
             // Sort functionality would be implemented here
-            console.log('Sorting articles...');
+            console.log("Sorting articles...");
         }
         // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener("DOMContentLoaded", () => {
             setupFilterAndSort();
         });
     </script>
@@ -750,7 +807,8 @@
             color: var(--text-secondary);
             font-size: 0.875rem;
         }
-        .filter-select, .sort-select {
+        .filter-select,
+        .sort-select {
             padding: 0.5rem 1rem;
             border: 2px solid var(--border);
             border-radius: 8px;
@@ -760,7 +818,8 @@
             cursor: pointer;
             transition: border-color 0.3s ease;
         }
-        .filter-select:focus, .sort-select:focus {
+        .filter-select:focus,
+        .sort-select:focus {
             outline: none;
             border-color: var(--secondary-blue);
         }
