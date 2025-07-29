@@ -1,0 +1,129 @@
+
+---
+import Header from "../../components/Header.astro";
+import Navigation from "../../components/Navigation.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Hero from "../../components/Hero.astro";
+import MobileMenu from "../../components/MobileMenu.astro";
+import "../styles/variables.css";
+import TrendingSection from "../../components/TrendingSection.astro";
+import MainContent from "../../components/MainContent.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import NewsletterSubscribe from "../../components/NewsletterSubscribe.astro";
+import ContentCategories from "../../components/ContentCategories.astro";
+import Footer from "../../components/Footer.astro";
+---
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ガジェットコンパス🧭 | ガジェット探求の旅に終わりはない</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="最新ガジェットから技術解説まで、ITの世界を深く掘り下げるガジェットレビューサイト">
+    <meta name="theme-color" content="#1e40af">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+        /* Main Content */
+        .main-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <Header />
+    <Navigation />
+    <Breadcrumb />
+    <Hero />
+    <MobileMenu />
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Trending Section -->
+        <TrendingSection />
+
+        <div class="main-container" id="content">
+            <!-- Main Content -->
+            <MainContent />
+
+            <!-- Sidebar -->
+            <Sidebar />
+        </div>
+    </div>
+
+    <!-- Newsletter Subscribe Section -->
+    <NewsletterSubscribe />
+
+    <!-- Content Categories -->
+    <ContentCategories />
+
+    <!-- Footer -->
+    <Footer />
+
+    <script>
+        // PWA Installation
+        let deferredPrompt: any;
+
+        window.addEventListener('beforeinstallprompt', (e: Event) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button (you could add this to the UI)
+            console.log('PWA install prompt available');
+        });
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Intersection Observer for fade-in animations
+        function setupFadeInAnimations(): void {
+            const observerOptions: IntersectionObserverInit = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in cards
+            document.querySelectorAll('.fade-in-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Initialize fade-in animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', setupFadeInAnimations);
+    </script>
+</body>
+</html>
