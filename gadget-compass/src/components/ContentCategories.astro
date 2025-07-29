@@ -1,0 +1,52 @@
+---
+// ContentCategories.astro
+---
+<style>
+.content-categories {
+    background: var(--bg-white);
+    border-top: 1px solid var(--border);
+    padding: 1rem 0;
+}
+
+.category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.category-nav a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.category-nav a:hover {
+    background: var(--light-blue);
+    color: var(--primary-blue);
+}
+
+@media (max-width: 768px) {
+    .category-nav {
+        gap: 1rem;
+    }
+}
+</style>
+
+<section class="content-categories">
+    <div class="container">
+        <nav class="category-nav">
+            <a href="#">📱 スマートフォン</a>
+            <a href="#">💻 PC・ノート</a>
+            <a href="#">🎧 オーディオ</a>
+            <a href="#">📷 カメラ</a>
+            <a href="#">⌚ ウェアラブル</a>
+            <a href="#">🏠 スマートホーム</a>
+            <a href="#">🎮 ゲーミング</a>
+            <a href="#">🔧 テック考察</a>
+        </nav>
+    </div>
+</section>

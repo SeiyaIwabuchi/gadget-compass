@@ -1,0 +1,90 @@
+---
+// Footer.astro
+---
+<style>
+.footer {
+    background: var(--text-primary);
+    color: white;
+    padding: 3rem 0 1rem;
+    margin-top: 3rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    border-top: 1px solid #374151;
+    padding-top: 1rem;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+</style>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ガジェットコンパス🧭</h3>
+                <p>最新テクノロジーから実用的なデジタルツールまで、あなたのIT生活をより豊かにする情報をお届けします。</p>
+            </div>
+            <div class="footer-section">
+                <h3>カテゴリー</h3>
+                <ul class="footer-links">
+                    <li><a href="#">スマートフォン</a></li>
+                    <li><a href="#">PC・ノート</a></li>
+                    <li><a href="#">オーディオ</a></li>
+                    <li><a href="#">カメラ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>情報</h3>
+                <ul class="footer-links">
+                    <li><a href="#">プライバシーポリシー</a></li>
+                    <li><a href="#">利用規約</a></li>
+                    <li><a href="#">お問い合わせ</a></li>
+                    <li><a href="#">サイトマップ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>フォローする</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Twitter/X</a></li>
+                    <li><a href="#">YouTube</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">RSS</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 ガジェットコンパス. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

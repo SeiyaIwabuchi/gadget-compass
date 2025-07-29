@@ -1,0 +1,84 @@
+---
+// トレンドセクションのコンポーネント
+---
+
+<section class="trending-section fade-in-card">
+    <div class="container">
+        <div class="trending-content">
+            <h2 class="trending-title">📈 トレンド情報</h2>
+            <p class="trending-subtitle">今週の人気記事と統計</p>
+            <div class="trending-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="viewsCount">1,234</div>
+                    <div class="stat-label">今週の閲覧数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="articlesCount">156</div>
+                    <div class="stat-label">総記事数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="commentsCount">89</div>
+                    <div class="stat-label">今週のコメント</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="usersCount">567</div>
+                    <div class="stat-label">アクティブユーザー</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .trending-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin: 1.5rem 0;
+        }
+        .trending-content {
+            text-align: center;
+        }
+        .trending-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .trending-subtitle {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        .trending-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 0;
+        }
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--accent-orange);
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+        .fade-in-card {
+            opacity: 0;
+            transform: translateY(50px);
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease;
+        }
+        .fade-in-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</section>
