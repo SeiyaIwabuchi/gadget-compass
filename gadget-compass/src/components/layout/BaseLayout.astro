@@ -5,9 +5,7 @@ import Navigation from "../../components/Navigation.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Hero from "../../components/Hero.astro";
 import MobileMenu from "../../components/MobileMenu.astro";
-import "../styles/variables.css";
-import TrendingSection from "../../components/TrendingSection.astro";
-import MainContent from "../../components/MainContent.astro";
+import "../..//styles/variables.css";
 import Sidebar from "../../components/Sidebar.astro";
 import NewsletterSubscribe from "../../components/NewsletterSubscribe.astro";
 import ContentCategories from "../../components/ContentCategories.astro";
@@ -55,11 +53,11 @@ import Footer from "../../components/Footer.astro";
     <!-- Main Container -->
     <div class="container">
         <!-- Trending Section -->
-        <TrendingSection />
+        <slot name="trending-section" />
 
         <div class="main-container" id="content">
             <!-- Main Content -->
-            <MainContent />
+            <slot />
 
             <!-- Sidebar -->
             <Sidebar />
