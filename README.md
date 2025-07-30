@@ -1,1 +1,1 @@
-- [ここからみる](https://seiyaiwabuchi.github.io/gadget-compass/gadget-compass/dist/index.html)
+- [ここからみる](https://seiyaiwabuchi.github.io/gadget-compass/)
