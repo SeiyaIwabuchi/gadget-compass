@@ -1,7 +1,13 @@
 ---
 import BaseLayout from "../components/layout/BaseLayout.astro";
-import MainContent from "../components/MainContent.astro";
 import TrendingSection from "../components/TrendingSection.astro";
+
+export async function getStaticPaths() {
+  return ["dummy_1","dummy_2","dummy_3"].map((post) => ({
+    params: { slug: post },
+  }));
+}
+
 ---
 
 <BaseLayout>
