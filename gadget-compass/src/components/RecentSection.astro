@@ -1,5 +1,78 @@
 ---
 // RecentSection.astro
+import { getCollection } from 'astro:content';
+import RecentCard from './RecentCard.astro';
+
+// Content Collectionsから全記事を取得
+const allArticles = await getCollection('articles');
+
+// 最新記事を日付順で取得（最大3件）
+const recentArticles = allArticles
+    .sort((a, b) => {
+        const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+        const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+        return dateB - dateA;
+    })
+    .slice(0, 3);
+
+// URL構築用のベースパス
+const basePath = import.meta.env.BASE_URL || '/';
+
+// タグに基づく絵文字マッピング
+function getEmojiForTags(tags: string[]): string {
+    const tagEmojiMap: Record<string, string> = {
+        'プログラミング': '💻',
+        'React': '⚛️',
+        'JavaScript': '🟨',
+        'TypeScript': '🔷',
+        'サーバー': '🖥️',
+        'Proxmox': '🔧',
+        '自宅ラボ': '🏠',
+        'オーディオ': '🎧',
+        'ワイヤレス': '📡',
+        'ノイズキャンセリング': '🔇',
+        'レビュー': '📝',
+        'ガジェット': '📱',
+        'AI': '🤖',
+        'Web開発': '🌐',
+        'データベース': '🗄️',
+        'セキュリティ': '🔒',
+        'ネットワーク': '🌐',
+        'クラウド': '☁️',
+        'Docker': '🐳',
+        'Linux': '🐧'
+    };
+    
+    for (const tag of tags) {
+        if (tagEmojiMap[tag]) {
+            return tagEmojiMap[tag];
+        }
+    }
+    return '📄'; // デフォルト絵文字
+}
+
+// 星評価を生成する関数
+function generateStarRating(rating: number): { fullStars: number, emptyStars: number, rating: number } {
+    const fullStars = Math.floor(rating);
+    const emptyStars = 5 - fullStars;
+    return { fullStars, emptyStars, rating };
+}
+
+// 読了時間を計算する関数（文字数から推定）
+function calculateReadTime(content: string): number {
+    const wordsPerMinute = 300; // 日本語の平均読書速度（文字/分）
+    const wordCount = content.length;
+    return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+}
+
+// モック統計データを生成
+function generateMockStats() {
+    return {
+        views: Math.floor(Math.random() * 2000) + 100,
+        comments: Math.floor(Math.random() * 30) + 1,
+        likes: Math.floor(Math.random() * 100) + 1
+    };
+}
 ---
 
 <section class="recent-section">
@@ -8,167 +81,26 @@
         <h2 class="section-title">最新記事</h2>
     </div>
     <div class="article-list">
-        <!-- Article 1 -->
-        <article class="article-card fade-in-card">
-            <div class="article-image">💻</div>
-            <div class="article-content">
-                <div class="article-tags">
-                    <span class="tag">プログラミング</span>
-                    <span class="tag">React</span>
-                    <span class="tag">新機能</span>
-                </div>
-                <h2 class="article-title">
-                    React 19の新機能を実際のプロジェクトで試してみた
-                </h2>
-                <div class="article-meta">
-                    <div class="rating">
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">☆</span>
-                        <span>4.2</span>
-                    </div>
-                    <div class="read-time">
-                        <span>🕒</span>
-                        <span>約10分</span>
-                    </div>
-                </div>
-                <p class="article-excerpt">
-                    React
-                    19で追加された新機能を実際のプロジェクトに導入。Server
-                    Componentsやuseフックの使い勝手を詳しく解説します。パフォーマンス向上と開発体験の改善についても検証。
-                </p>
-                <div class="article-stats">
-                    <span>👀 892 views</span>
-                    <span>💬 12 comments</span>
-                    <span>❤️ 45 likes</span>
-                </div>
-                <div class="article-footer">
-                    <a href="#" class="read-more">続きを読む</a>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <button
-                            class="favorite-btn"
-                            onclick="toggleFavorite(this)"
-                            data-article="article-1"
-                        >
-                            ♡
-                        </button>
-                        <div class="share-buttons">
-                            <a href="#" class="share-btn twitter">𝕏</a>
-                            <a href="#" class="share-btn facebook">f</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <!-- Article 2 -->
-        <article class="article-card fade-in-card">
-            <div class="article-image">🖥️</div>
-            <div class="article-content">
-                <div class="article-tags">
-                    <span class="tag">サーバー</span>
-                    <span class="tag">自宅ラボ</span>
-                    <span class="tag">Proxmox</span>
-                </div>
-                <h2 class="article-title">
-                    自宅ラボ構築ガイド：ProxmoxでVMクラスター環境を作る
-                </h2>
-                <div class="article-meta">
-                    <div class="rating">
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span>4.8</span>
-                    </div>
-                    <div class="read-time">
-                        <span>🕒</span>
-                        <span>約20分</span>
-                    </div>
-                </div>
-                <p class="article-excerpt">
-                    自宅でエンタープライズレベルのサーバー環境を構築。Proxmoxを使った仮想化クラスターの設定から運用まで詳しく解説。冗長化とバックアップ戦略も含めた完全ガイド。
-                </p>
-                <div class="article-stats">
-                    <span>👀 1,234 views</span>
-                    <span>💬 18 comments</span>
-                    <span>❤️ 67 likes</span>
-                </div>
-                <div class="article-footer">
-                    <a href="#" class="read-more">続きを読む</a>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <button
-                            class="favorite-btn"
-                            onclick="toggleFavorite(this)"
-                            data-article="article-2"
-                        >
-                            ♡
-                        </button>
-                        <div class="share-buttons">
-                            <a href="#" class="share-btn twitter">𝕏</a>
-                            <a href="#" class="share-btn facebook">f</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <!-- Article 3 -->
-        <article class="article-card fade-in-card">
-            <div class="article-image">🎧</div>
-            <div class="article-content">
-                <div class="article-tags">
-                    <span class="tag">オーディオ</span>
-                    <span class="tag">ワイヤレス</span>
-                    <span class="tag">ノイズキャンセリング</span>
-                </div>
-                <h2 class="article-title">
-                    没入感が違う！最新ノイズキャンセリングイヤホン比較 -
-                    音質と快適性の新基準
-                </h2>
-                <div class="article-meta">
-                    <div class="rating">
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">★</span>
-                        <span class="star">☆</span>
-                        <span>4.2</span>
-                    </div>
-                    <div class="read-time">
-                        <span>🕒</span>
-                        <span>約6分</span>
-                    </div>
-                </div>
-                <p class="article-excerpt">
-                    長時間使用での快適さと音質の両立を果たした最新モデルを徹底比較。通勤時間も集中作業も、雑音を忘れて没入できるおすすめイヤホンをランキング形式でお届け。
-                </p>
-                <div class="article-stats">
-                    <span>👀 756 views</span>
-                    <span>💬 8 comments</span>
-                    <span>❤️ 32 likes</span>
-                </div>
-                <div class="article-footer">
-                    <a href="#" class="read-more">続きを読む</a>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <button
-                            class="favorite-btn"
-                            onclick="toggleFavorite(this)"
-                            data-article="article-3"
-                        >
-                            ♡
-                        </button>
-                        <div class="share-buttons">
-                            <a href="#" class="share-btn twitter">𝕏</a>
-                            <a href="#" class="share-btn facebook">f</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
+        {recentArticles.map((article, index) => {
+            const stats = generateMockStats();
+            const stars = generateStarRating(article.data.stars || 4.0);
+            const readTime = calculateReadTime(article.body);
+            const emoji = getEmojiForTags(article.data.tags || []);
+            const articleUrl = `${basePath}/${article.slug}`.replace(/\/+/g, '/');
+            
+            return (
+                <RecentCard
+                    article={article}
+                    index={index}
+                    basePath={basePath}
+                    stats={stats}
+                    stars={stars}
+                    readTime={readTime}
+                    emoji={emoji}
+                    articleUrl={articleUrl}
+                />
+            );
+        })}
     </div>
 </section>
 
@@ -272,244 +204,24 @@
         padding: 1.5rem;
     }
     
-    .article-card {
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        overflow: hidden;
-        background: var(--bg-white);
-        transition: all 0.3s ease;
-        position: relative;
-    }
-    
-    .article-card:hover {
-        transform: translateY(-2px) scale(1.02);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--secondary-blue);
-    }
-    
-    .article-card:hover .article-image {
-        transform: scale(1.05);
-    }
-    
-    .article-card:hover .tag {
-        animation: pulse 0.6s ease-in-out;
-    }
-    
-    @keyframes pulse {
-        0%,
-        100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-    }
-    
-    .article-image {
-        height: 200px;
-        background: var(--gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 3rem;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-    
-    .article-content {
-        padding: 1.5rem;
-    }
-    
-    .article-tags {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-    }
-    
-    .tag {
-        background: rgba(59, 130, 246, 0.1);
-        color: var(--secondary-blue);
-        padding: 0.25rem 0.75rem;
-        border-radius: 15px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .tag:hover {
-        background: rgba(59, 130, 246, 0.2);
-    }
-    
-    .article-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        color: var(--text-primary);
-        line-height: 1.4;
-    }
-    
-    .article-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-        color: var(--text-secondary);
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .rating {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-    }
-    
-    .star {
-        color: #fbbf24;
-        font-size: 1rem;
-    }
-    
-    .read-time {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-    }
-    
-    .article-stats {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        font-size: 0.75rem;
-        color: var(--text-light);
-    }
-    
-    .article-excerpt {
-        color: var(--text-secondary);
-        margin-bottom: 1rem;
-        line-height: 1.6;
-    }
-    
-    .article-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .favorite-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.5rem;
-        color: var(--text-light);
-        transition: all 0.3s ease;
-        padding: 0.5rem;
-        border-radius: 50%;
-    }
-    
-    .favorite-btn:hover {
-        color: #ef4444;
-        background: rgba(239, 68, 68, 0.1);
-        transform: scale(1.1);
-    }
-    
-    .favorite-btn.active {
-        color: #ef4444;
-        animation: heartBeat 0.6s ease-in-out;
-    }
-    
-    @keyframes heartBeat {
-        0%,
-        100% {
-            transform: scale(1);
-        }
-        25% {
-            transform: scale(1.2);
-        }
-        50% {
-            transform: scale(1.1);
-        }
-        75% {
-            transform: scale(1.15);
-        }
-    }
-    
-    .read-more {
-        color: var(--secondary-blue);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-    }
-    
-    .read-more:hover {
-        color: var(--primary-blue);
-    }
-    
-    .share-buttons {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .share-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        color: white;
-        font-size: 0.875rem;
-        transition: transform 0.2s ease;
-    }
-    
-    .share-btn:hover {
-        transform: scale(1.1);
-    }
-    
-    .share-btn.twitter {
-        background: #1da1f2;
-    }
-    
-    .share-btn.facebook {
-        background: #4267b2;
-    }
-    
-    /* Fade-in animation for cards */
-    .fade-in-card {
-        opacity: 0;
-        transform: translateY(50px);
-        transition:
-            opacity 0.8s ease,
-            transform 0.8s ease;
-    }
-    
-    .fade-in-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    .fade-in-card:nth-child(1) {
+    /* Fade-in animation for cards - keeping timing for the list */
+    .article-list :global(.fade-in-card:nth-child(1)) {
         transition-delay: 0s;
     }
     
-    .fade-in-card:nth-child(2) {
+    .article-list :global(.fade-in-card:nth-child(2)) {
         transition-delay: 0.1s;
     }
     
-    .fade-in-card:nth-child(3) {
+    .article-list :global(.fade-in-card:nth-child(3)) {
         transition-delay: 0.2s;
     }
     
-    .fade-in-card:nth-child(4) {
+    .article-list :global(.fade-in-card:nth-child(4)) {
         transition-delay: 0.3s;
     }
     
-    .fade-in-card:nth-child(5) {
+    .article-list :global(.fade-in-card:nth-child(5)) {
         transition-delay: 0.4s;
     }
     

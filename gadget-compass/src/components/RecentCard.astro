@@ -1,0 +1,318 @@
+---
+// RecentCard.astro
+export interface Props {
+    article: {
+        slug: string;
+        data: {
+            title: string;
+            description?: string;
+            tags?: string[];
+            stars?: number;
+        };
+        body: string;
+    };
+    index: number;
+    basePath: string;
+    stats: {
+        views: number;
+        comments: number;
+        likes: number;
+    };
+    stars: {
+        fullStars: number;
+        emptyStars: number;
+        rating: number;
+    };
+    readTime: number;
+    emoji: string;
+    articleUrl: string;
+}
+
+const { article, index, basePath, stats, stars, readTime, emoji, articleUrl } = Astro.props;
+---
+
+<article class="article-card fade-in-card">
+    <div class="article-image">{emoji}</div>
+    <div class="article-content">
+        <div class="article-tags">
+            {(article.data.tags || []).slice(0, 3).map((tag: string) => (
+                <span class="tag">{tag}</span>
+            ))}
+        </div>
+        <h2 class="article-title">
+            <a href={articleUrl} class="title-link">{article.data.title}</a>
+        </h2>
+        <div class="article-meta">
+            <div class="rating">
+                {Array.from({ length: stars.fullStars }, () => (
+                    <span class="star">★</span>
+                ))}
+                {Array.from({ length: stars.emptyStars }, () => (
+                    <span class="star">☆</span>
+                ))}
+                <span>{stars.rating.toFixed(1)}</span>
+            </div>
+            <div class="read-time">
+                <span>🕒</span>
+                <span>約{readTime}分</span>
+            </div>
+        </div>
+        <p class="article-excerpt">
+            {article.data.description || '記事の詳細な説明がここに表示されます。'}
+        </p>
+        <div class="article-stats">
+            <span>👀 {stats.views.toLocaleString()} views</span>
+            <span>💬 {stats.comments} comments</span>
+            <span>❤️ {stats.likes} likes</span>
+        </div>
+        <div class="article-footer">
+            <a href={articleUrl} class="read-more">続きを読む</a>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button
+                    class="favorite-btn"
+                    onclick="toggleFavorite(this)"
+                    data-article={`recent-article-${index + 1}`}
+                >
+                    ♡
+                </button>
+                <div class="share-buttons">
+                    <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.data.title)}&url=${encodeURIComponent(articleUrl)}`} class="share-btn twitter" target="_blank">𝕏</a>
+                    <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`} class="share-btn facebook" target="_blank">f</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<style>
+    .article-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--bg-white);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .article-card:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--secondary-blue);
+    }
+    
+    .article-card:hover .article-image {
+        transform: scale(1.05);
+    }
+    
+    .article-card:hover .tag {
+        animation: pulse 0.6s ease-in-out;
+    }
+    
+    @keyframes pulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+    
+    .article-image {
+        height: 200px;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .article-content {
+        padding: 1.5rem;
+    }
+    
+    .article-tags {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--secondary-blue);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+        background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .article-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--text-primary);
+        line-height: 1.4;
+    }
+    
+    .title-link {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.2s ease;
+    }
+    
+    .title-link:hover {
+        color: var(--secondary-blue);
+    }
+    
+    .article-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .star {
+        color: #fbbf24;
+        font-size: 1rem;
+    }
+    
+    .read-time {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .article-stats {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+    
+    .article-excerpt {
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+    
+    .article-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .favorite-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+        padding: 0.5rem;
+        border-radius: 50%;
+    }
+    
+    .favorite-btn:hover {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.1);
+        transform: scale(1.1);
+    }
+    
+    .favorite-btn.active {
+        color: #ef4444;
+        animation: heartBeat 0.6s ease-in-out;
+    }
+    
+    @keyframes heartBeat {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        25% {
+            transform: scale(1.2);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        75% {
+            transform: scale(1.15);
+        }
+    }
+    
+    .read-more {
+        color: var(--secondary-blue);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+    
+    .read-more:hover {
+        color: var(--primary-blue);
+    }
+    
+    .share-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .share-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: white;
+        font-size: 0.875rem;
+        transition: transform 0.2s ease;
+    }
+    
+    .share-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .share-btn.twitter {
+        background: #1da1f2;
+    }
+    
+    .share-btn.facebook {
+        background: #4267b2;
+    }
+    
+    /* Fade-in animation for cards */
+    .fade-in-card {
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+            opacity 0.8s ease,
+            transform 0.8s ease;
+    }
+    
+    .fade-in-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>

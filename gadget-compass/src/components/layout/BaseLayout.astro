@@ -10,6 +10,7 @@ import Sidebar from "../../components/Sidebar.astro";
 import NewsletterSubscribe from "../../components/NewsletterSubscribe.astro";
 import ContentCategories from "../../components/ContentCategories.astro";
 import Footer from "../../components/Footer.astro";
+import TrendingSection from "../TrendingSection.astro";
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -52,9 +53,6 @@ import Footer from "../../components/Footer.astro";
     <MobileMenu />
     <!-- Main Container -->
     <div class="container">
-        <!-- Trending Section -->
-        <slot name="trending-section" />
-
         <div class="main-container" id="content">
             <!-- Main Content -->
             <slot />
