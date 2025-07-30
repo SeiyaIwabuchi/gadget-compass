@@ -1,10 +1,12 @@
 ---
+import Hero from "../components/Hero.astro";
 import BaseLayout from "../components/layout/BaseLayout.astro";
 import MainContent from "../components/MainContent.astro";
 import TrendingSection from "../components/TrendingSection.astro";
 ---
 
 <BaseLayout>
+    <Hero slot="hero" />
     <TrendingSection slot="trending-section" />
     <MainContent />
 </BaseLayout>

@@ -1,16 +1,516 @@
 ---
 import BaseLayout from "../components/layout/BaseLayout.astro";
 import TrendingSection from "../components/TrendingSection.astro";
+import { getCollection, getEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  return ["dummy_1","dummy_2","dummy_3"].map((post) => ({
-    params: { slug: post },
-  }));
+    const articles = await getCollection("articles");
+    return articles.map((article) => ({
+        params: { slug: article.slug },
+    }));
 }
 
+const { slug } = Astro.params;
+const entry = await getEntry("articles", slug);
+if (!entry) {
+    throw new Error(`記事が見つかりません: ${slug}`);
+}
+const { data } = entry;
+const { Content } = await entry.render();
 ---
 
 <BaseLayout>
-    <TrendingSection slot="trending-section" />
-    <!-- ここにmarkdownコンテンツを挿入 -->
+    <article class="markdown-content">
+        {data.tags && data.tags.length > 0 && (
+            <div class="tags">
+                {data.tags.map((tag: string) => (
+                    <span class="tag">{tag}</span>
+                ))}
+            </div>
+        )}
+        <h1>{data.title}</h1>
+        <div class="meta">
+            {data.author && <span class="meta-item">👤 {data.author}</span>}
+            {
+                data.pubDate && (
+                    <span class="meta-item">
+                        📅 {data.pubDate instanceof Date
+                            ? data.pubDate.toISOString().slice(0, 10)
+                            : data.pubDate}
+                    </span>
+                )
+            }
+            {data.stars && <span class="meta-item">⭐ {data.stars}点</span>}
+            {data.timeRequired && <span class="meta-item">⏱️ {data.timeRequired}</span>}
+        </div>
+        <Content />
+    </article>
 </BaseLayout>
+
+<script>
+    // コールアウトボックスの変換
+    document.addEventListener('DOMContentLoaded', () => {
+        const blockquotes = document.querySelectorAll('blockquote');
+        blockquotes.forEach((blockquote) => {
+            const firstP = blockquote.querySelector('p');
+            if (!firstP || blockquote.classList.contains('callout')) return;
+            
+            const text = firstP.textContent?.trim() || '';
+            let type = '';
+            let title = '';
+            
+            if (text.startsWith('[!NOTE]')) {
+                type = 'note';
+                title = 'Note';
+                firstP.textContent = text.replace('[!NOTE]', '').trim();
+            } else if (text.startsWith('[!TIP]')) {
+                type = 'tip';
+                title = 'Tip';
+                firstP.textContent = text.replace('[!TIP]', '').trim();
+            } else if (text.startsWith('[!WARNING]')) {
+                type = 'warning';
+                title = 'Warning';
+                firstP.textContent = text.replace('[!WARNING]', '').trim();
+            } else if (text.startsWith('[!CAUTION]')) {
+                type = 'caution';
+                title = 'Caution';
+                firstP.textContent = text.replace('[!CAUTION]', '').trim();
+            } else if (text.startsWith('[!IMPORTANT]')) {
+                type = 'important';
+                title = 'Important';
+                firstP.textContent = text.replace('[!IMPORTANT]', '').trim();
+            }
+            
+            if (type) {
+                blockquote.className = `callout callout-${type}`;
+                
+                // タイトル要素を追加
+                const titleElement = document.createElement('div');
+                titleElement.className = 'callout-title';
+                titleElement.textContent = title;
+                blockquote.insertBefore(titleElement, firstP);
+            }
+        });
+    });
+</script>
+
+<style>
+    :root {
+        --primary-blue: #0066CC;
+        --accent-blue: #4A90E2;
+        --tech-gray: #F8F9FA;
+        --border-light: #E1E5E9;
+        --text-primary: #2C3E50;
+        --text-secondary: #64748B;
+        --success-green: #10B981;
+        --warning-orange: #F59E0B;
+        --danger-red: #EF4444;
+    }
+
+    .markdown-content {
+        max-width: 1024px;
+        min-width: 320px;
+        width: 100%;
+        min-height: 500px;
+        margin: 0 auto;
+        padding: 0 2rem 2rem 2rem;
+        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: var(--text-primary);
+        line-height: 1.7;
+        box-sizing: border-box;
+    }
+
+    /* コンテンツエリアの統一 */
+    .markdown-content :global(*) {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* 画像やテーブルの幅制御 */
+    .markdown-content :global(img),
+    .markdown-content :global(table),
+    .markdown-content :global(pre) {
+        max-width: 100%;
+        width: auto;
+    }
+
+    /* タグ */
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+    }
+
+    .tag {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--primary-blue), var(--accent-blue));
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.375rem 0.875rem;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 102, 204, 0.2);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tag::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .tag:hover::before {
+        left: 100%;
+    }
+
+    .tag:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 102, 204, 0.3);
+    }
+
+    /* メタ情報 */
+    .description {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: var(--tech-gray);
+        border-left: 4px solid var(--accent-blue);
+        border-radius: 0 8px 8px 0;
+    }
+
+    .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .meta-item {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.25rem 0.75rem;
+        background: var(--tech-gray);
+        border-radius: 16px;
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .meta-item:hover {
+        background: rgba(74, 144, 226, 0.08);
+        border-color: rgba(74, 144, 226, 0.2);
+        color: var(--text-primary);
+    }
+
+    /* ヘッダースタイル */
+    .markdown-content :global(h1) {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        border-bottom: 3px solid var(--primary-blue);
+        padding-bottom: 0.5rem;
+    }
+
+    .markdown-content :global(h2) {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2rem 0 1rem 0;
+        padding: 0.5rem 1rem 0.5rem 1.5rem;
+        border: 2px solid var(--primary-blue);
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, rgba(0, 102, 204, 0.02) 100%);
+        position: relative;
+        color: var(--primary-blue);
+    }
+
+    .markdown-content :global(h2::before) {
+        content: '';
+        position: absolute;
+        left: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 60%;
+        width: 4px;
+        background: linear-gradient(180deg, var(--primary-blue), var(--accent-blue));
+        border-radius: 2px;
+    }
+
+    .markdown-content :global(h2:hover) {
+        box-shadow: 0 2px 8px rgba(74, 144, 226, 0.15);
+    }
+
+    .markdown-content :global(h3) {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-blue);
+        margin: 1.5rem 0 0.75rem 0;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .markdown-content :global(h3::after) {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 120px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+        border-radius: 1.5px;
+    }
+
+    .markdown-content :global(h4) {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 1.25rem 0 0.5rem 0;
+    }
+
+    /* コードブロック */
+    .markdown-content :global(pre) {
+        background: #1e1e1e;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .markdown-content :global(code) {
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    /* インラインコード */
+    .markdown-content :global(p code),
+    .markdown-content :global(li code) {
+        background: #f1f5f9;
+        color: var(--primary-blue);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875em;
+    }
+
+    /* 引用 */
+    .markdown-content :global(blockquote) {
+        border-left: 4px solid var(--accent-blue);
+        background: rgba(74, 144, 226, 0.05);
+        padding: 1rem 2rem;
+        margin: 1.5rem 0;
+        font-style: italic;
+        border-radius: 0 8px 8px 0;
+    }
+
+    /* コールアウトボックス */
+    .markdown-content :global(.callout) {
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        border-left: 4px solid;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-style: normal;
+        background: white;
+    }
+
+    .markdown-content :global(.callout-title) {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .markdown-content :global(.callout-note) {
+        background: rgba(74, 144, 226, 0.1);
+        border-color: var(--accent-blue);
+        color: var(--text-primary);
+    }
+
+    .markdown-content :global(.callout-note .callout-title) {
+        color: var(--accent-blue);
+    }
+
+    .markdown-content :global(.callout-tip) {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: var(--success-green);
+        color: var(--text-primary);
+    }
+
+    .markdown-content :global(.callout-tip .callout-title) {
+        color: var(--success-green);
+    }
+
+    .markdown-content :global(.callout-warning) {
+        background: rgba(245, 158, 11, 0.1);
+        border-color: var(--warning-orange);
+        color: var(--text-primary);
+    }
+
+    .markdown-content :global(.callout-warning .callout-title) {
+        color: var(--warning-orange);
+    }
+
+    .markdown-content :global(.callout-caution) {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: var(--danger-red);
+        color: var(--text-primary);
+    }
+
+    .markdown-content :global(.callout-caution .callout-title) {
+        color: var(--danger-red);
+    }
+
+    .markdown-content :global(.callout-important) {
+        background: rgba(147, 51, 234, 0.1);
+        border-color: #9333ea;
+        color: var(--text-primary);
+    }
+
+    .markdown-content :global(.callout-important .callout-title) {
+        color: #9333ea;
+    }
+
+    /* テーブル */
+    .markdown-content :global(table) {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .markdown-content :global(th) {
+        background: var(--tech-gray);
+        color: var(--text-primary);
+        font-weight: 600;
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .markdown-content :global(td) {
+        padding: 1rem;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .markdown-content :global(tr:hover) {
+        background: rgba(74, 144, 226, 0.05);
+    }
+
+    /* リンクスタイル */
+    .markdown-content :global(a) {
+        color: var(--primary-blue);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .markdown-content :global(a:hover) {
+        border-bottom-color: var(--primary-blue);
+    }
+
+    /* リスト */
+    .markdown-content :global(ul),
+    .markdown-content :global(ol) {
+        margin: 1rem 0;
+        padding-left: 2rem;
+    }
+
+    .markdown-content :global(li) {
+        margin: 0.5rem 0;
+    }
+
+    .markdown-content :global(ul li::marker) {
+        color: var(--accent-blue);
+    }
+
+    /* 段落 */
+    .markdown-content :global(p) {
+        margin: 1rem 0;
+    }
+
+    /* 画像 */
+    .markdown-content :global(img) {
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        margin: 1.5rem auto;
+        display: block;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 強調 */
+    .markdown-content :global(strong) {
+        color: var(--primary-blue);
+        font-weight: 600;
+    }
+
+    .markdown-content :global(em) {
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    /* 水平線 */
+    .markdown-content :global(hr) {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+        margin: 2rem 0;
+        border-radius: 1px;
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+        .markdown-content {
+            padding: 1rem;
+        }
+
+        .tags {
+            gap: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.7rem;
+        }
+
+        .markdown-content :global(h1) {
+            font-size: 2rem;
+        }
+
+        .markdown-content :global(h2) {
+            font-size: 1.5rem;
+        }
+
+        .meta {
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+        }
+
+        .markdown-content :global(pre) {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+    }
+</style>
