@@ -1,0 +1,272 @@
+---
+// RankingCard.astro
+export interface Props {
+    rank: number;
+    slug: string;
+    url: string;
+    emoji: string;
+    tags: string[];
+    title: string;
+    rating: number;
+    readTime: string;
+    excerpt: string;
+    views: string;
+    comments: string;
+    likes: string;
+}
+
+const { rank, slug, url, emoji, tags, title, rating, readTime, excerpt, views, comments, likes } = Astro.props;
+
+// 星の表示を生成
+const stars = Array.from({ length: 5 }, (_, i) => i < Math.floor(rating) ? '★' : '☆');
+---
+
+<a href={url} class={`ranking-item rank-${rank} fade-in-card`}>
+    <div class={`ranking-number rank-${rank}`}>{rank}</div>
+    <div class="ranking-image">{emoji}</div>
+    <div class="ranking-content">
+        <div class="article-tags">
+            {tags.map(tag => (
+                <span class="tag">{tag}</span>
+            ))}
+        </div>
+        <h3 class="ranking-title">
+            {title}
+        </h3>
+        <div class="ranking-meta">
+            <div class="rating">
+                {stars.map(star => (
+                    <span class="star">{star}</span>
+                ))}
+                <span>{rating}</span>
+            </div>
+            <div class="read-time">
+                <span>🕒</span>
+                <span>{readTime}</span>
+            </div>
+        </div>
+        <p class="ranking-excerpt">
+            {excerpt}
+        </p>
+        <div class="ranking-stats">
+            <span>👀 {views}</span>
+            <span>💬 {comments}</span>
+            <span>❤️ {likes}</span>
+        </div>
+    </div>
+</a>
+
+<style>
+    .ranking-item {
+        display: flex;
+        background: var(--bg-white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+    }
+    
+    .ranking-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--secondary-blue);
+    }
+    
+    .ranking-item:focus {
+        outline: 2px solid var(--secondary-blue);
+        outline-offset: 2px;
+    }
+    
+    .ranking-item:active {
+        transform: translateY(-1px);
+    }
+    
+    .ranking-item.rank-1 {
+        border-color: #ffd700;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    
+    .ranking-item.rank-2 {
+        border-color: #c0c0c0;
+        box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+    }
+    
+    .ranking-item.rank-3 {
+        border-color: #cd7f32;
+        box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+    }
+    
+    .ranking-number {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: white;
+        z-index: 10;
+    }
+    
+    .ranking-number.rank-1 {
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+    
+    .ranking-number.rank-2 {
+        background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+        box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
+    }
+    
+    .ranking-number.rank-3 {
+        background: linear-gradient(135deg, #cd7f32, #d4af37);
+        box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
+    }
+    
+    .ranking-image {
+        width: 120px;
+        height: 120px;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        flex-shrink: 0;
+    }
+    
+    .ranking-content {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .ranking-title {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        line-height: 1.4;
+        line-break: strict;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    
+    .ranking-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+    
+    .ranking-excerpt {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+    }
+    
+    .ranking-stats {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: var(--text-light);
+    }
+    
+    .article-tags {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--secondary-blue);
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .tag:hover {
+        background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .rating {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .star {
+        color: #fbbf24;
+        font-size: 1rem;
+    }
+    
+    .read-time {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    /* Fade-in animation for cards */
+    .fade-in-card {
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+            opacity 0.8s ease,
+            transform 0.8s ease;
+    }
+    
+    .fade-in-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    @media (max-width: 768px) {
+        .ranking-item {
+            flex-direction: column;
+        }
+        
+        .ranking-image {
+            width: 100%;
+            height: 100px;
+        }
+        
+        .ranking-content {
+            padding: 1rem;
+        }
+        
+        .ranking-title {
+            font-size: 0.9rem;
+        }
+        
+        .ranking-excerpt {
+            font-size: 0.8rem;
+        }
+        
+        .ranking-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>
