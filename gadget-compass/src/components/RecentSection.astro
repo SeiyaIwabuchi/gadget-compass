@@ -86,7 +86,7 @@ function generateMockStats() {
             const stars = generateStarRating(article.data.stars || 4.0);
             const readTime = calculateReadTime(article.body);
             const emoji = getEmojiForTags(article.data.tags || []);
-            const articleUrl = `${basePath}/${article.slug}`.replace(/\/+/g, '/');
+            const articleUrl = `${basePath}/articles/${article.slug}`.replace(/\/+/g, '/');
             
             return (
                 <RecentCard

@@ -32,8 +32,8 @@ const featuredArticles = rankedArticles.map((article, index) => {
     
     // import.meta.env.BASE_URLを使用してbasePathを考慮したURLを構築
     const basePath = import.meta.env.BASE_URL;
-    const articleUrl = `${basePath}/${article.slug}`; // 重複するスラッシュを除去
-    
+    const articleUrl = `${basePath}/articles/${article.slug}`; // 重複するスラッシュを除去
+
     // 絵文字をタグベースで決定
     const getEmojiFromTags = (tags: string[]) => {
         const tagMap: Record<string, string> = {
